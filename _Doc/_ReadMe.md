@@ -1,4 +1,5 @@
-# VisualAcamedy
+# C# 문법
+## Visual Acamedy
 - [Site](http://dotnetkorea.com/)
 - [Github](https://github.com/VisualAcademy/DotNet)
 - [Youtube](https://www.youtube.com/c/VisualAcademy/playlists)
