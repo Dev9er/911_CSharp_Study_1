@@ -15,6 +15,7 @@
 - 동기 코드 : 메서드 호출 후, 실행이 종료(반환) 되어야 다음 메서드 호출
 - 비동기 코드: 메서드 호출 후, 종료를 기다리지 않고 다음 코드 실행
 ### 멀티 스레드
+- 다중 스레딩: 동시에 여러 작업을 수행하여 앱의 응답성을 높이고, 다중 코어에서 처리량 향상
 - 동시성(Concurrency): 멀티 작업을 위해 하나의 코어에서 멀티 스레드가 번갈아 가며 실행하는 성질, 한 번에 하나의 작업
     - Time Slice 방식
     - Context Switching
@@ -44,8 +45,8 @@
 #### delegate 생성과 Thread 함수 설정
 ```C#
     using System.Threading;
-    public delegate void ThreadStart();
-    public delegate void ParameterizedThreadStart(object obj);
+    //public delegate void ThreadStart();
+    //public delegate void ParameterizedThreadStart(object obj);
     ThreadStart thereadStart = new ThreadStart(ThreadFunction);
     ThreadStart parameterizedThereadStart = new ParameterizedThreadStart(ParameterizedThreadFunction);
 ```
@@ -54,6 +55,7 @@
     Thread thread = new Thread(new ThreadStart(ThreadFunction));
     Thread thread = new Thread(threadStart);
     Thread thread = new Thread(ThreadFunction);
+    Thread thread = new Thread(() => {});
 
     Thread thread2 = new Thread(new ParameterizedThreadStart(ParameterizedThreadFunction));
 ```
@@ -61,6 +63,10 @@
 ```C#
     thread.Start();
     thread2.Start(parameter);
+```
+#### Thread 종료
+```C#
+    thread.Join();
 ```
 ### Thread 속성, 메서드
 #### Thread 속성
@@ -87,6 +93,11 @@
     - Thread.ResetAbort()
     - Suspend(), Resume() 제거됨.
 - Thread.Sleep() : 다른 스레드도 CPU를 사용할 수 있도록 CPU 점유를 푼다.
+##### Thread 실행 시간 측정
+```C#
+    DateTime start = DateTime.Now;
+    int elapsed = (DateTime.Now - start).TotalSeconds;
+```
 ### Thread Stack
 - User 모드 Thread Stack
 - Kernel 모드 Thread Stack
