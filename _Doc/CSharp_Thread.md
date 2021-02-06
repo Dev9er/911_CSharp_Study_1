@@ -7,6 +7,7 @@
     - 실행 파일이 실행되어 메모리에 적재된 인스턴스
     - 운영체제로부터 할당받은 메모리에 코드와 데이터를 저장 및 CPU를 할당받아 실행 가능한 상태 (메모리 개념)
     - 하나 이상의 스레드로 구성
+    - IPC : Interprocess Communication
 - Thread
     - 작업자 한 명
     - 운영체제가 CPU 시간을 할당하는 기본 단위
@@ -98,7 +99,7 @@
     - ThreadState 열거형
 #### Thread 메서드
 - Start()
-- Join() : 계산 작업을 하는 스레드가 모든 계산 작업을 마쳤을때, 계산 결과값을 받아 이용하는 경우에 주로 사용, 현재 스레드는 일시 정지됨.
+- Join() : 실, 계산 작업을 하는 스레드가 모든 계산 작업을 마쳤을때, 계산 결과값을 받아 이용하는 경우에 주로 사용, 현재 스레드는 일시 정지됨.
 - Thread.Interrupt() : Abort() 대신 추천
     - WaitSleepJoin 상태에서 ThreadInterruptedException 예외 던짐
     - Thread.SpinWait()
