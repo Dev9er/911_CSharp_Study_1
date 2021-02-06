@@ -63,11 +63,12 @@
     task.Start();
     Task task1 = Task.Run(SomeAction);
     task2.Start();
+    await Task.Delay(1000); // Thread.Sleep() 와 응답성(Blocking) 차이
 ```
-- task.RunSynchronously()
 #### Task 종료
 ```C#
     task.Wait();
+    task.RunSynchronously();
     task1.Wait();
     task2.Wait();
 ```

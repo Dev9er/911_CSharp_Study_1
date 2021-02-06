@@ -1,7 +1,8 @@
 # C# 문법
 ## async, await
+- BeginInvoke(), EndInvoke()
 ### async
-- 메서드 이벤트 처리기, 태스크, 람다식 등 수식하기만 하면 비동기 코드 생성
+- 메서드, 이벤트 처리기, 태스크, 람다식 등 수식하기만 하면 비동기 코드 생성
 ### 반환 형식
 - Task, Task<TResult> : 작업이 완료될 때까지 기다리는 메서드
 - void : 실행하고 잊어버릴 (Shoot and Forget) 작업을 담고 있는 메서드
