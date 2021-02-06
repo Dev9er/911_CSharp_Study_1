@@ -1,8 +1,14 @@
 # C# 문법
-후위, 단항, 범위, switch, with
-산술, Shift, 관계(as, is)
-논리, 병합, 조건, 대입, ,
 ## Task
+- `System.Threading.Tasks`
+- Task : 비동기 코드를 손쉽게 작성할 수 있도록 도움
+    - Synchronous 코드 : 검사의 찌르기 공격
+        - 메서드 호출 후, 실행이 종료(반환) 되어야 다음 메서드 호출 (Blocking Code)
+    - Asynchronous 코드 : 궁수의 활쏘기
+        - Shoot(Fire) & Forget
+        - 작업 A를 시작한 후 A의 결과가 나올 때까지 마냥 대기하는 대신 곧이어 다른 작업 B, C, D를 수행하다가 작업 A가 끝나면 그 때 결과를 받아내는 처리 방식.
+        - 메서드 호출 후, 종료를 기다리지 않고 다음 코드 실행 (Non-Blocking Code)
+        - async & await
 ### Thread Pool : Background Thread
 - 작업 완료 시점을 알 수 없음
 - 작업 수행 결과를 얻어 올 수 없음
@@ -23,13 +29,12 @@
 ### Task 생성, 사용
 #### Action, Func 대리자 사용 함수 생성
 ```C#
-    Action SomeAction = _ => {}
-    Func<int> SomeFunc = _ => {return result;}
+    Action SomeAction = () => {}
+    Func<int> SomeFunc = () => {return result;}
 ```
 #### Task 생성
 ```C#
     Task task = new Task(SomeAction);
-    Task task1 = Task.Run(SomeAction);
     Task<int> task2 = new Task(SomeFunc);
     Task<int> task5 = new Task<int>((n) => SumFunc((int)n), 100);
     Task task6 = task5.ContinueWith(task => Console.WriteLine("The Sum is" + task.Result));
@@ -53,20 +58,24 @@
 ```
 - Task.Factory.StartNew()
 - Task.ContinueWith()
-#### Task 사용
+#### Task 실행
 ```C#
     task.Start();
-    task.Wait();
-
-    task1.Wait();
-
+    Task task1 = Task.Run(SomeAction);
     task2.Start();
+```
+- task.RunSynchronously()
+#### Task 종료
+```C#
+    task.Wait();
+    task1.Wait();
     task2.Wait();
+```
+### Task 결과값
+```C#
     int i2 = task2.Result;
     int i5 = task5.Result;
 ```
-- task.RunSynchronously()
-### Task 결과값
 #### 블로킹 방식
 #### Callback 방식
 - 애플리케이션이 스레드에게 작업 처리를 요청한 후, 다른 기능을 수행할 동안, 스레드가 작업을 완료하면 애플리케이션의 메서드를 자동 실행하는 기법으로 이 때 자동 실행되는 메서드를 콜백 메서드라고 한다.

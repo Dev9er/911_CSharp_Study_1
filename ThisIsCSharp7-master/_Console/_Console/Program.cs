@@ -1,36 +1,70 @@
 ﻿using System;
 using System.Threading;
 
-namespace AbortingThread
+namespace WaitPulse
 {
-    class SideTask
+    class Counter
     {
-        int count;
+        const int LOOP_COUNT = 1000;
 
-        public SideTask(int count)
+        readonly object lockObject;
+        bool isLocked = false;
+
+        private int countWork;
+        public int Count
         {
-            this.count = count;
+            get { return countWork; }
         }
 
-        public void KeepAlive()
+        public Counter()
         {
-            try
+            lockObject = new object();
+            countWork = 0;
+        }
+
+        public void Increase()
+        {
+            int loopCount = LOOP_COUNT;
+
+            while (loopCount-- > 0)
             {
-                while (count > 0)
+                lock (lockObject)
                 {
-                    Console.WriteLine($"{count--} left");
-                    Thread.Sleep(10);
+                    //while (count > 0 || lockedCount == true)
+                    //    Monitor.Wait(thisLock);
+                    if (countWork > 0 || isLocked)
+                    {
+                        Monitor.Wait(lockObject);
+                    }
+                    isLocked = true;
+                    countWork++;
+                    isLocked = false;
+
+                    Monitor.Pulse(lockObject);
                 }
-                Console.WriteLine("Count : 0");
             }
-            catch (ThreadAbortException e)
+        }
+
+        public void Decrease()
+        {
+            int loopCount = LOOP_COUNT;
+
+            while (loopCount-- > 0)
             {
-                Console.WriteLine(e);
-                //Thread.ResetAbort();
-            }
-            finally
-            {
-                Console.WriteLine("Clearing resource...");
+                lock (lockObject)
+                {
+                    //while (count < 0 || lockedCount == true)
+                    //    Monitor.Wait(thisLock);
+                    if (countWork < 0 || isLocked)
+                    {
+                        Monitor.Wait(lockObject);
+                    }
+                    isLocked = true;
+                    countWork--;
+                    isLocked = false;
+
+                    Monitor.Pulse(lockObject);
+                }
             }
         }
     }
@@ -39,22 +73,20 @@ namespace AbortingThread
     {
         static void Main(string[] args)
         {
-            SideTask task = new SideTask(100);
-            Thread t1 = new Thread(new ThreadStart(task.KeepAlive));
-            t1.IsBackground = false;
+            Counter counter = new Counter();
 
-            Console.WriteLine("Starting thread...");
-            t1.Start();
+            Thread incThread = new Thread(
+                new ThreadStart(counter.Increase));
+            Thread decThread = new Thread(
+                new ThreadStart(counter.Decrease));
 
-            Thread.Sleep(100);
+            incThread.Start();
+            decThread.Start();
 
-            Console.WriteLine("Aborting thread...");
-            t1.Abort();
+            incThread.Join();
+            decThread.Join();
 
-            Console.WriteLine("Wating until thread stops...");
-            t1.Join();
-
-            Console.WriteLine("Finished");
+            Console.WriteLine(counter.Count);
         }
     }
 }

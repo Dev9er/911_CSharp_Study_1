@@ -18,9 +18,12 @@
     - 코드에 의해 실행(Thread) : Main과 별개 독립 실행 (Multi Thread)
 - 동기
     - Synchronous 코드 : 메서드 호출 후, 실행이 종료(반환) 되어야 다음 메서드 호출 (Blocking Code)
-    - Asynchronous 코드: 메서드 호출 후, 종료를 기다리지 않고 다음 코드 실행 (Non-Blocking Code)
+    - Asynchronous 코드:
+        - 작업 A를 시작한 후 A의 결과가 나올 때까지 마냥 대기하는 대신 곧이어 다른 작업 B, C, D를 수행하다가 작업 A가 끝나면 그 때 결과를 받아내는 처리 방식.
+        - 메서드 호출 후, 종료를 기다리지 않고 다음 코드 실행 (Non-Blocking Code)
         - 긴 작업을 메인 스레드에서 분리하여 실행 후 결과를 반환하는 방식
 ### 멀티 스레드
+- 하나의 작업을 여러 작업자가 나눠서 수행한 뒤, 다시 하나의 결과로 만드는 것.
 - 다중 스레딩: 동시에 여러 작업을 수행하여 앱의 응답성을 높이고, 다중 코어에서 처리량 향상. 여러 작업자를 두고 동시에 작업을 처리하는 것.
 - Core 수
     - 동시성(Concurrency): 멀티 작업을 위해 하나의 코어에서 멀티 스레드가 번갈아 가며 실행하는 성질, 한 번에 하나의 작업
@@ -76,6 +79,7 @@
 #### Thread 종료
 ```C#
     thread.Join();
+    thread.Interrupt();
 ```
 ### Thread 속성, 메서드
 #### Thread 속성
@@ -97,20 +101,23 @@
         - Lowest
 - Thread State
     - ThreadState 열거형
+    `System.Threading.ThreadState`
+    - ThreadState 열거형은 [Flags] 특성을 사용하므로, 여러 상태를 동시에 나타낼 수 있다.
 #### Thread 메서드
 - Start()
 - Join() : 실, 계산 작업을 하는 스레드가 모든 계산 작업을 마쳤을때, 계산 결과값을 받아 이용하는 경우에 주로 사용, 현재 스레드는 일시 정지됨.
-- Thread.Interrupt() : Abort() 대신 추천
+- Thread.Sleep() : 다른 스레드도 CPU를 사용할 수 있도록 CPU 점유를 푼다.
+    - `Thread.Sleep(1000); // 1초 대기(지연)`
+- Thread.Interrupt() : 종료시, 추천
     - WaitSleepJoin 상태에서 ThreadInterruptedException 예외 던짐
-    - Thread.SpinWait()
-- Abort()
+- Thread.SpinWait()
+    - Sleep()과 유사하게, 스레드를 대기하게 하지만, 스레드가 한 동안 Running 상태를 갖도록 지정
+- Abort() : 사용 자제.
     - CLR에 의해 ThreadAbortException 예외 발생
         - 동작하던 스레드가 즉시 종료된다는 보장 안됨
         - 자원을 독점한 스레드가 해제 못한 상태로 종료되는 문제점
     - Thread.ResetAbort()
     - Suspend(), Resume() 제거됨.
-- Thread.Sleep() : 다른 스레드도 CPU를 사용할 수 있도록 CPU 점유를 푼다.
-    - `Thread.Sleep(1000); // 1초 대기(지연)`
 ##### Thread 실행 시간 측정
 ```C#
     DateTime start = DateTime.Now;
@@ -128,6 +135,7 @@
     Debugger.Break();
 ```
 ### Thread 동기화 : 공유 자원 사용 문제
+- 파일 핸들, 네트워크 커넥션, 메모리에 선언한 변수
 - Field, Shared Resource
 - Thread Safe
 - 작업들 사이의 수행 시기를 맞추는 것
@@ -154,9 +162,17 @@
 - Monitor.Pulse() : Waiting Queue의 첫 요소 스레드를 꺼내 Ready Queue에 입력
 ```C#
     private object obj = new object();
-    public static Monitor.Enter(obj)
-    // Thread 구현
-    public static Monitor.Exit(obj);
+    lock (lockObject)
+    {
+        if (countWork > 0 || isLocked)
+        {
+            Monitor.Wait(lockObject);
+        }
+        isLocked = true;
+        countWork++;
+        isLocked = false;
+        Monitor.Pulse(lockObject);
+    }
 ```
 #### Mutex : public sealed calss Mutex : WaitHandle
 ```C#
