@@ -2,28 +2,33 @@
 ## Thread : CPU 가상화
 ### 용어
 - 파일, 프로그램
-- 프로세스
+- Process
+    - 현재 실행 중인 프로그램
     - 실행 파일이 실행되어 메모리에 적재된 인스턴스
     - 운영체제로부터 할당받은 메모리에 코드와 데이터를 저장 및 CPU를 할당받아 실행 가능한 상태 (메모리 개념)
     - 하나 이상의 스레드로 구성
-- 스레드
+- Thread
+    - 작업자 한 명
     - 운영체제가 CPU 시간을 할당하는 기본 단위
     - 프로세스를 할당받고 코드를 실행 (실행 개념)
+    - 프로세스안에서 실행하는 단위 프로그램(메서드)
     - Thread : 함수 실행용 운영체제 자원 in 멀티 태스킹 운영체제
     - 프로그램 실행(Main) : Main Thread (Single Thread)
     - 코드에 의해 실행(Thread) : Main과 별개 독립 실행 (Multi Thread)
-- 동기 코드 : 메서드 호출 후, 실행이 종료(반환) 되어야 다음 메서드 호출
-- 비동기 코드: 메서드 호출 후, 종료를 기다리지 않고 다음 코드 실행
+- 동기
+    - Synchronous 코드 : 메서드 호출 후, 실행이 종료(반환) 되어야 다음 메서드 호출 (Blocking Code)
+    - Asynchronous 코드: 메서드 호출 후, 종료를 기다리지 않고 다음 코드 실행 (Non-Blocking Code)
 ### 멀티 스레드
-- 다중 스레딩: 동시에 여러 작업을 수행하여 앱의 응답성을 높이고, 다중 코어에서 처리량 향상
-- 동시성(Concurrency): 멀티 작업을 위해 하나의 코어에서 멀티 스레드가 번갈아 가며 실행하는 성질, 한 번에 하나의 작업
-    - Time Slice 방식
-    - Context Switching
-    - Thread Scheduling : 스레드를 어떤 순서로 실행할 것인가를 결정
-        - CPU Scheduler Scheduling
-        - Thread Priority(우선 순위 방식)
-        - Round Robin(순환 할당 방식)
-- 병렬성(Parallelism): 멀티 작업을 위해 멀티 코어에서 개별 스레드를 동시에 실행하는 성질
+- 다중 스레딩: 동시에 여러 작업을 수행하여 앱의 응답성을 높이고, 다중 코어에서 처리량 향상. 여러 작업자를 두고 동시에 작업을 처리하는 것.
+- Core 수
+    - 동시성(Concurrency): 멀티 작업을 위해 하나의 코어에서 멀티 스레드가 번갈아 가며 실행하는 성질, 한 번에 하나의 작업
+        - Time Slice 방식
+        - Context Switching
+        - Thread Scheduling : 스레드를 어떤 순서로 실행할 것인가를 결정
+            - CPU Scheduler Scheduling
+            - Thread Priority(우선 순위 방식)
+            - Round Robin(순환 할당 방식)
+    - 병렬 처리(Parallel Processing): 멀티 작업을 위해 멀티 코어에서 개별 스레드를 동시에 실행하는 것
 - 멀티 스레드 장점
     - 사용자 대화형 프로그램에서 응답성을 높임
         - Freeze, Lock, Hang, Lag
@@ -52,10 +57,10 @@
 ```
 #### Thread 생성
 ```C#
+    Thread thread = new Thread(() => {});
+    Thread thread = new Thread(ThreadFunction);
     Thread thread = new Thread(new ThreadStart(ThreadFunction));
     Thread thread = new Thread(threadStart);
-    Thread thread = new Thread(ThreadFunction);
-    Thread thread = new Thread(() => {});
 
     Thread thread2 = new Thread(new ParameterizedThreadStart(ParameterizedThreadFunction));
 ```
@@ -63,6 +68,8 @@
 ```C#
     thread.Start();
     thread2.Start(parameter);
+    // Process
+    Process.Start("Notepad.exe");  // 메모장 실행
 ```
 #### Thread 종료
 ```C#
@@ -73,16 +80,24 @@
 - Name
 - IsAlive
 - IsBackground
+    - `thread.IsBackground = true;`
     - Foreground : 주 쓰레드와 독립적으로 동작.
     - Background : Main Thread 와 생사(종료)를 같이 한다.
 - public static Thread CurrentThread { get; }
     - Thread.CurrentThread.GetHashCode();
     - Thread.CurrentThread.Abort();
     - Thread.CurrentThread.ManagedThreadId;
-- ThreadState 열거형
+- Priority : 우선 순위
+    - `thread.Priority = ThreadPriority.Highest;` // 우선순위 높게 
+    - ThreadPriority 열거형
+        - Highest
+        - Normal
+        - Lowest
+- Thread State
+    - ThreadState 열거형
 #### Thread 메서드
 - Start()
-- Join() : 계산 작업을 하는 스레드가 모든 계산 작업을 마쳤을때, 계산 결과값을 받아 이용하는 경우에 주로 사용, 나는 일시 정지됨.
+- Join() : 계산 작업을 하는 스레드가 모든 계산 작업을 마쳤을때, 계산 결과값을 받아 이용하는 경우에 주로 사용, 현재 스레드는 일시 정지됨.
 - Thread.Interrupt() : Abort() 대신 추천
     - WaitSleepJoin 상태에서 ThreadInterruptedException 예외 던짐
     - Thread.SpinWait()
@@ -93,6 +108,7 @@
     - Thread.ResetAbort()
     - Suspend(), Resume() 제거됨.
 - Thread.Sleep() : 다른 스레드도 CPU를 사용할 수 있도록 CPU 점유를 푼다.
+    - `Thread.Sleep(1000); // 1초 대기(지연)`
 ##### Thread 실행 시간 측정
 ```C#
     DateTime start = DateTime.Now;
@@ -116,9 +132,9 @@
 - 다수의 스레드가 동시에 공유 자원을 사용할 때, 순서를 정하는 것
 - 자원을 한 번에 하나의 스레드가 사용하도록 보장
 #### lock
-    - Critical Section
-    - 코드 영역을 한 번에 한 스레드만 사용하도록 보장
-    - 외부 코드에서도 접근할 수 있는 객체를 lock의 매개변수로 사용 금지
+- Critical Section
+- 코드 영역을 한 번에 한 스레드만 사용하도록 보장
+- 외부 코드에서도 접근할 수 있는 객체를 lock의 매개변수로 사용 금지
 ```C#
     private object obj = new object();
     lock (obj) { // 임계(경계) 영역 }
@@ -127,16 +143,6 @@
     try {
     } finally {
         System.Threading.Monitor.Exit(obj);
-    }
-```
-```Java
-    public synchronized void method() { // 임계 영역}   // 동기화 메서드
-    // 혹은
-    public void method() {
-        //synchronized(공유 객체) {   // 동기화 블록
-        synchronized(this) {   // 동기화 블록
-            // 임계 영역
-        }
     }
 ```
 #### Monitor : public static class Monitor
@@ -167,7 +173,7 @@
         - new Thread(ServerProcess)
 - Client
 ### Thread가 사라진 이유
-- 상당히 무거운 객체
+- Process 보다 가볍지만, 의외로 상당히 무거운 객체
 - Context Switching
 - 작업 완료 시점을 알 수 없다.
 - 반환값을 못 받는다.

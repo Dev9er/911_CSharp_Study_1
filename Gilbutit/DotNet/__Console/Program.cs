@@ -23,7 +23,6 @@ class 스레드
         t3.Start();
 
         // 프로세스
-        Process.Start("IExplore.exe"); // 익스플로러 실행
         Process.Start("Notepad.exe");  // 메모장 실행 
     }
     private static void Ide()

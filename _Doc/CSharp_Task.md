@@ -1,4 +1,7 @@
 # C# 문법
+후위, 단항, 범위, switch, with
+산술, Shift, 관계(as, is)
+논리, 병합, 조건, 대입, ,
 ## Task
 ### Thread Pool : Background Thread
 - 작업 완료 시점을 알 수 없음
