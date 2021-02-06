@@ -17,30 +17,41 @@
 - 3.2 C#의 기본 코드 구조
 - Flags 특성 : 열거형을 비트 필드로 사용
 ### 연산자
-#### &#10024; 암기 &#10024;
-1. 후위 단항 범위 switch with
-1. 산술 Shift 관계 (형식 상등)
-1. 논리 (비트 논리) 병합 조건 대입 (람다) ,
+#### &#10024; 암기법 &#10024;
+1. 주 전위 범위 switch with
+1. 산술 Shift 관계
+1. 논리 병합 조건 할당 ,
 #### 우선순위
-주 후위 x.y f(x) a[i] x?.y x?[y] x++ x-- x! new typeof checked unchecked default nameof delegate sizeof stackalloc x->y
-- 단항 전위 +x -x !x ~x ++x --x ^x (T)x await &x *x true false
-- 범위 x..y
-- switch 식
-- with 식
-- 산술 곱하기 * / %
-- 더하기 + -
-- Shift << >>
-- 관계, 형식 < > <= >= is as
-- 상등(같음) == !=
-- 비트 논리 and &
-- 비트 논리 xor ^
-- 비트 논리 or |
-- 조건부 and &&
-- 조건부 or ||
-- null 병합 ??
-- 조건(3항) ? :
-- 할당, 대입 람다 = += -= *= /= %= &= |= ^= <<= >>= ??= =>
-- 순차적 계산 ,
+1. 주(후위)
+   - f(x) a[x] x.y x?.y x?[y] x->y
+   - x++ x-- x!
+   - new nameof typeof sizeof default
+   - checked unchecked delegate stackalloc
+1. 전위(단항)
+    - +x -x ++x --x !x ~x ^x (T)x &x *x
+   - await true false
+1. 범위 x..y
+1. switch 식
+1. with 식
+1. 산술
+   1. 곱하기 * / %
+   1. 더하기 + -
+1. Shift << >>
+1. 관계
+   1. < > <= >= is as
+   1. == !=
+1. 논리
+   1. 비트 논리
+      1. &
+      1. ^
+      1. |
+   2. 조건부 논리
+      1. &&
+      1. ||
+1. 병합 ??
+1. 조건 ? :
+1. 할당(람다) => ??= = += -= *= /= %= &= |= ^= <<= >>=
+1. 순차적 계산 ,
 #### 결합성
 - 연산자 결합성 :
   - 연산자의 결합성이 연산이 수행되는 순서를 결정
