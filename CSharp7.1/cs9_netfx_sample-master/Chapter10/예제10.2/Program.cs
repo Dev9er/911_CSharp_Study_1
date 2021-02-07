@@ -13,6 +13,9 @@ namespace ConsoleApplication1
         static void Main(string[] args)
         {
             AwaitRead();
+                Console.WriteLine("Before Read: " + Thread.CurrentThread.ManagedThreadId);
+            Console.WriteLine("Hi");
+            Console.WriteLine("Before Readc: " + Thread.CurrentThread.ManagedThreadId);
             Console.ReadLine();
         }
 
@@ -23,7 +26,8 @@ namespace ConsoleApplication1
                 byte[] buf = new byte[fs.Length];
 
                 Console.WriteLine("Before ReadAsync: " + Thread.CurrentThread.ManagedThreadId);
-                await fs.ReadAsync(buf, 0, buf.Length);
+                //await fs.ReadAsync(buf, 0, buf.Length);
+                fs.ReadAsync(buf, 0, buf.Length);
                 Console.WriteLine("After ReadAsync: " + Thread.CurrentThread.ManagedThreadId);
 
                 // 아래의 두 라인은 C# 컴파일러가 분리해, ReadAsync 비동기 호출이 완료된 후 호출

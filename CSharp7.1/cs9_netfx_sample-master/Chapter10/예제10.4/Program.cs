@@ -1,43 +1,37 @@
 ﻿
-/* ================= 예제 10.4: Task 타입 ================= */
+/* ================= 10.2.2 Task, Task<TResult> 타입 ================= */
 
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ConsoleApplication1
+class Program
 {
-    class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
-            // 기존의 QueueUserWorkItem으로 별도의 스레드에서 작업을 수행
-            ThreadPool.QueueUserWorkItem(
-                (obj) =>
-                {
-                    Console.WriteLine("process workitem");
-                }, null);
+        Task taskSleep = new Task(() => { Thread.Sleep(5000); });
+        taskSleep.Start();
+        taskSleep.Wait(); // Task의 작업이 완료될 때까지 현재 스레드를 대기한다.
 
-            // .NET 4.0의 Task 타입을 이용해 별도의 스레드에서 작업을 수행
-            Task task1 = new Task(
-                () =>
-                {
-                    Console.WriteLine("process taskitem");
-                });
+        Task.Factory.StartNew(() => { Console.WriteLine("process taskitem"); });
 
-            task1.Start();
+        Task.Factory.StartNew((obj) => { Console.WriteLine("process taskitem(obj)"); }, null);
 
-            Task task2 = new Task(
-                (obj) =>
-                {
-                    Console.WriteLine("process taskitem(obj)");
-                }, null);
+        Task<int> task = new Task<int>(
+            () =>
+            {
+                Random rand = new Random((int)DateTime.Now.Ticks);
+                return rand.Next();
+            }
+        );
 
-            task2.Start();
+        task.Start();
+        task.Wait();
 
-            Console.ReadLine();
-        }
+        Console.WriteLine("무작위 숫자 값: " + task.Result);
+
+        Task<int> taskReturn = Task.Factory.StartNew<int>(() => 1);
+        taskReturn.Wait();
+        Console.WriteLine(taskReturn.Result);
     }
 }
-
-

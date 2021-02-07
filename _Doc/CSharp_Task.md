@@ -69,6 +69,15 @@
 ```C#
     Task task = new Task(SomeAction);
     Task<int> task2 = new Task(SomeFunc);
+    new Task(() => {}).Start();
+    new Task(obj => {}, null).Start();
+    Task.Factory.StartNew(() => { Console.WriteLine("process taskitem"); });
+    Task.Factory.StartNew((obj) => { Console.WriteLine("process taskitem(obj)"); }, null);
+    Task<int> task4 = new Task<int>(() => {
+        Random rand = new Random((int)DateTime.Now.Ticks);
+        return rand.Next(); });
+    // delegate를 전달하자마자 곧바로 작업 시작
+    Task<int> taskReturn = Task.Factory.StartNew<int>(() => 1);
     Task<int> task5 = new Task<int>((n) => SumFunc((int)n), 100);
     Task task6 = task5.ContinueWith(task => Console.WriteLine("The Sum is" + task.Result));
     Task task7 = task5.ContinueWith(task => Console.WriteLine("The Sum is" + task.Result), TaskContinuationOptions.OnlyOnRanToCompletion);
@@ -104,6 +113,10 @@
     task.RunSynchronously();
     task1.Wait();
     task2.Wait();
+    // 2개의 작업을 병렬로 처리하지만, 모든 작업이 완료될 때까지 대기
+    Task.WaitAll(task1, task2);
+    // 2개의 작업을 병렬로 비동기 호출
+    await Task.WhenAll(task3, task5);
 ```
 ### Task 결과값
 ```C#
