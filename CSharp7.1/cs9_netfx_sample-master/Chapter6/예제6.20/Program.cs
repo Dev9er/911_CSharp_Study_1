@@ -19,7 +19,7 @@ class Program
     static void threadFunc()
     {
         Console.WriteLine("60초 후에 프로그램 종료");
-        Thread.Sleep(1000 * 60); // 60초 동안 실행 중지
+        Thread.Sleep(1000 * 3); // 60초 동안 실행 중지
         Console.WriteLine("스레드 종료!");
     }
 }

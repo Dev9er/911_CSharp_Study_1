@@ -1,5 +1,52 @@
 ﻿
-/* ================= 예제 6.24: Monitor 타입의 사용 예 ================= */
+
+/* ================= 6.6.2 System.Threading.Monitor ================= */
+
+using System;
+using System.Threading;
+
+class MyData
+{
+    int number = 0;
+
+    public int Number { get { return number; } }
+
+    public void Increment()
+    {
+        number++;
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        MyData data = new MyData();
+
+        Thread t1 = new Thread(threadFunc);
+        Thread t2 = new Thread(threadFunc);
+
+        t1.Start(data);
+        t2.Start(data);
+
+        t1.Join();
+        t2.Join();
+
+        Console.WriteLine(data.Number);
+    }
+
+    static void threadFunc(object inst)
+    {
+        MyData data = inst as MyData;
+
+        for (int i = 0; i < 100000; i++)
+        {
+            data.Increment();
+        }
+    }
+}
+#if false
+		/* ================= 예제 6.24: Monitor 타입의 사용 예 ================= */
 
 using System;
 using System.Threading;
@@ -29,21 +76,23 @@ class Program
         Program pg = inst as Program;
         for (int i = 0; i < 100000; i++)
         {
-            //Monitor.Enter(pg);
+            Monitor.Enter(pg);
 
-            //try
-            //{
-            //    pg.number = pg.number + 1;
-            //}
-            //finally
-            //{
-            //    Monitor.Exit(pg);
-            //}
-
-            lock (pg)
+            try
             {
                 pg.number = pg.number + 1;
             }
+            finally
+            {
+                Monitor.Exit(pg);
+            }
+
+            //lock (pg)
+            //{
+            //    pg.number = pg.number + 1;
+            //}
         }
     }
 }
+ /**/ 
+#endif

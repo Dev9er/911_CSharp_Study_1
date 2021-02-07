@@ -1,46 +1,39 @@
-﻿
-/* ================= 예제 6.27: ThreadPool을 이용한 예 ================= */
+﻿/* ================= 6.6.5 System.Threading.EventWaitHandle ================= */
 
 using System;
 using System.Threading;
-
-class MyData
-{
-    int number = 0;
-
-    public int Number { get { return number; } }
-
-    public void Increment()
-    {
-        Interlocked.Increment(ref number);
-    }
-}
 
 class Program
 {
     static void Main(string[] args)
     {
-        MyData data = new MyData();
+        // Non-Signal 상태의 이벤트 객체 생성
+        // 생성자의 첫 번째 인자가 false이면 Non-Signal 상태로 시작.
+        // true이면 Signal 상태로 시작
+        EventWaitHandle ewh = new EventWaitHandle(false, EventResetMode.ManualReset);
 
-        ThreadPool.QueueUserWorkItem(threadFunc, data);
-        ThreadPool.QueueUserWorkItem(threadFunc, data);
+        //Thread t = new Thread(threadFunc);
+        //t.IsBackground = true;
+        //t.Start(ewh);
+        new Thread(obj => {
+            (obj as EventWaitHandle).Set();
+        }).Start(ewh);
 
-        Thread.Sleep(1000);
+        // Non-Signal 상태에서 WaitOne을 호출했으므로 Signal 상태로 바뀔 때까지 대기
+        ewh.WaitOne();
 
-        Console.WriteLine(data.Number);
+        Console.WriteLine("주 스레드 종료!");
     }
 
-    static void threadFunc(object inst)
+    static void threadFunc(object state)
     {
-        MyData data = inst as MyData;
+        EventWaitHandle ewh = state as EventWaitHandle;
 
-        for (int i = 0; i < 100000; i++)
-        {
-            lock (data)
-            {
-                data.Increment();
-            }
-        }
+        Console.WriteLine("60초 후에 프로그램 종료");
+        Thread.Sleep(1000 * 3); // 60초 동안 실행 중지
+        Console.WriteLine("스레드 종료!");
+
+        // Non-Signal 상태의 이벤트를 Signal 상태로 전환
+        ewh.Set();
     }
 }
-

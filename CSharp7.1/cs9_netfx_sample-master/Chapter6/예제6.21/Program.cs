@@ -26,11 +26,13 @@ class Program
 
     static void CountPrimeNumbers(object initialValue)
     {
-        string value = (string)initialValue;
-        int primeCandidate = int.Parse(value);
+        string value = initialValue as string;
+        //int primeCandidate = int.Parse(value);//Convert
+        int primeCandidate = Convert.ToInt32(value);
+
         int totalPrimes = 0;
 
-        for (int i = 2; i < primeCandidate; i++)
+        for (int i = 2; i <= primeCandidate; i++)
         {
             if (IsPrime(i) == true)
             {

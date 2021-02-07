@@ -1,20 +1,8 @@
 ﻿
-/* ================= 예제 6.26: 스레드에 안전하지 않은 메서드를 외부에서 안전하게 사용하는 방법 ================= */
+/* ================= 6.6.3 System.Threading.Interlocked ================= */
 
 using System;
 using System.Threading;
-
-class MyData
-{
-    int number = 0;
-
-    public int Number { get { return number; } }
-
-    public void Increment()
-    {
-        number++;
-    }
-}
 
 class Program
 {
@@ -38,12 +26,25 @@ class Program
     {
         MyData data = inst as MyData;
 
-        for (int i = 0; i < 100000; i++)
+        for (int i = 0; i < 1000000; i++)
         {
-            lock (data)
+            //lock (data)
             {
                 data.Increment();
             }
         }
     }
 }
+
+class MyData
+{
+    int number = 0;
+
+    public int Number { get { return number; } }
+
+    public void Increment()
+    {
+        Interlocked.Increment(ref number);
+    }
+}
+

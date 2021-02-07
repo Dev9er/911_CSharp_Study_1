@@ -1,5 +1,4 @@
-﻿
-/* ================= 예제 6.22: 스레드를 사용한 계산 프로그램 ================= */
+﻿/* ================= 예제 6.22: 스레드를 사용한 계산 프로그램 ================= */
 
 using System;
 using System.Threading;
@@ -32,7 +31,7 @@ class Program
         int primeCandidate = int.Parse(value);
         int totalPrimes = 0;
 
-        for (int i = 2; i < primeCandidate; i++)
+        for (int i = 2; i <= primeCandidate; i++)
         {
             if (IsPrime(i) == true)
             {

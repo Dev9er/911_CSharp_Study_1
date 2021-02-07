@@ -1,6 +1,13 @@
 # C# 문법
 ## Task
 - `System.Threading.Tasks`
+- 메서드 호출 방법
+    - Synchronous 호출 : 메서드 호출 후, 실행이 종료(반환) 되어야 다음 메서드 호출 (Blocking Call)
+    - Asynchronous 호출: Non-blocking call
+        - 입출력 장치와의 속도 차이에서 오는 비효율적인 스레드 사용 문제를 극복하는데 사용
+        - 작업 A를 시작한 후 A의 결과가 나올 때까지 마냥 대기하는 대신 곧이어 다른 작업 B, C, D를 수행하다가 작업 A가 끝나면 그 때 결과를 받아내는 처리 방식.
+        - 메서드 호출 후, 종료를 기다리지 않고 다음 코드 실행
+        - 긴 작업을 메인 스레드에서 분리하여 실행 후 결과를 반환하는 방식
 - Task : 비동기 코드를 손쉽게 작성할 수 있도록 도움
     - Synchronous 코드 : 검사의 찌르기 공격
         - 메서드 호출 후, 실행이 종료(반환) 되어야 다음 메서드 호출 (Blocking Code)
@@ -9,6 +16,32 @@
         - 작업 A를 시작한 후 A의 결과가 나올 때까지 마냥 대기하는 대신 곧이어 다른 작업 B, C, D를 수행하다가 작업 A가 끝나면 그 때 결과를 받아내는 처리 방식.
         - 메서드 호출 후, 종료를 기다리지 않고 다음 코드 실행 (Non-Blocking Code)
         - async & await
+### 기존의 비동기 호출 방식 : UI Thread
+- delegate의 비동기 호출을 위한 메서드로 ThreadPool의 스레드에서 실행된다.
+    - BeginInvoke()
+    - EndInvoke()
+```C#
+    public delegate long CalcMethod(int start, int end);
+    CalcMethod calc = new CalcMethod((s, e) => s + e);
+    // Delegate 타입의 BeginInvoke 메서드를 호출한다.
+    // 이 때문에 calc 메서드는 ThreadPool의 스레드에서 실행된다.
+    IAsyncResult ar = calc.BeginInvoke(1, 100, null, null);
+    // BeginInvoke로 반환받은 IAsyncResult 타입의 AsyncWaitHandle 속성은 EventWaitHandle 타입이다.
+    // AsyncWaitHandle 객체는 스레드 풀에서 실행된 calc의 동작이 완료됐을 때 Signal 상태로 바뀐다.
+    // 따라서 아래의 호출은 calc 메서드 수행이 완료될 때까지 현재 스레드를 대기시킨다.
+    ar.AsyncWaitHandle.WaitOne();
+    // calc의 반환값을 얻기 위해 EndInvoke 메서드를 호출한다.
+    // 반환값이 없어도 EndInvoke는 반드시 호출하는 것을 권장한다.
+    long result = calc.EndInvoke(ar);
+    // Callback 방식
+    CalcMethod calc = new CalcMethod((s, e) => s + e);
+    calc.BeginInvoke(1, 100, calcCompleted, calc);
+    void calcCompleted(IAsyncResult ar)
+    {
+        CalcMethod calc = ar.AsyncState as CalcMethod;
+        long result = calc.EndInvoke(ar);
+    }
+```
 ### Thread Pool : Background Thread
 - 작업 완료 시점을 알 수 없음
 - 작업 수행 결과를 얻어 올 수 없음
@@ -107,6 +140,4 @@
         }
     }
 ```
-### UI Thread
-- BeginInvoke()
 ### 동기화

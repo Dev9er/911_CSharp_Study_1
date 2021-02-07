@@ -16,12 +16,6 @@
     - Thread : 함수 실행용 운영체제 자원 in 멀티 태스킹 운영체제
     - 프로그램 실행(Main) : Main Thread (Single Thread)
     - 코드에 의해 실행(Thread) : Main과 별개 독립 실행 (Multi Thread)
-- 동기
-    - Synchronous 코드 : 메서드 호출 후, 실행이 종료(반환) 되어야 다음 메서드 호출 (Blocking Code)
-    - Asynchronous 코드:
-        - 작업 A를 시작한 후 A의 결과가 나올 때까지 마냥 대기하는 대신 곧이어 다른 작업 B, C, D를 수행하다가 작업 A가 끝나면 그 때 결과를 받아내는 처리 방식.
-        - 메서드 호출 후, 종료를 기다리지 않고 다음 코드 실행 (Non-Blocking Code)
-        - 긴 작업을 메인 스레드에서 분리하여 실행 후 결과를 반환하는 방식
 ### 멀티 스레드
 - 하나의 작업을 여러 작업자가 나눠서 수행한 뒤, 다시 하나의 결과로 만드는 것.
 - 다중 스레딩: 동시에 여러 작업을 수행하여 앱의 응답성을 높이고, 다중 코어에서 처리량 향상. 여러 작업자를 두고 동시에 작업을 처리하는 것.
@@ -68,6 +62,7 @@
     Thread thread = new Thread(threadStart);
 
     Thread thread2 = new Thread(new ParameterizedThreadStart(ParameterizedThreadFunction));
+    new Thread(state => {}).Start(obj);
 ```
 #### Thread 실행
 ```C#
@@ -135,13 +130,29 @@
     using System.Diagnostics;
     Debugger.Break();
 ```
+### Thread Pool
+- 스레드 동작 방식
+    - 상시 실행
+    - 일회성의 임시 실행
+- Pool : 재사용할 수 있는 자원의 집합
+- Thread Pool : 필요할 때마다 스레드를 꺼내 쓰고 필요없어지면 다시 풀에 스레드가 반환되는 기능
+- 임시적인 목적으로 언제든 원하는 때에 스레드를 사용
+- ThreadPool은 프로그램 시작과 함께 0개의 스레드를 가지며 생성
+- QueueUserWorkItem을 호출할 때, 필요하면 1개의 스레드를 생성해 실행
+- 일정 시간 동안 재사용되지 않는다면 스레드는 풀에서 제거되어 종료
+```C#
+    // System.Threading.ThreadPool
+    void threadFunction(object state) {}
+    ThreadPool.QueueUserWorkItem(threadFunction, data);
+
+```
 ### Thread 동기화 : 공유 자원 사용 문제
 - 파일 핸들, 네트워크 커넥션, 메모리에 선언한 변수
 - Field, Shared Resource
-- Thread Safe
 - 작업들 사이의 수행 시기를 맞추는 것
 - 다수의 스레드가 동시에 공유 자원을 사용할 때, 순서를 정하는 것
 - 자원을 한 번에 하나의 스레드가 사용하도록 보장
+- Thread Safe
 #### lock
 - Critical Section
 - 코드 영역을 한 번에 한 스레드만 사용하도록 보장
@@ -175,14 +186,33 @@
         Monitor.Pulse(lockObject);
     }
 ```
+#### Interlocked
+- `Interlocked.Increment(ref number);`  // Atomic Operation
+- `Interlocked.Exchange(ref number, 5);`
 #### Mutex : public sealed calss Mutex : WaitHandle
 ```C#
     static Mutex mutex = new Mutex();
     mutex.WaitOne();    // public virtual bool WaitOne()   // 진입
     mutex.ReleaseMutex();   // public void ReleaseMutex()  // 해제
 ```
-#### Interlocked
-#### AutoResetEvent, ManualResetEvent
+#### EventWaitHandle : 스레드 간에 신호를 전달하는 역할
+- Event 객체는 두가지 상태를 가진다
+    - Non-Signal -> Set() -> Signal
+    - Signal -> Reset() -> Non-Signal
+- WaitOne() : Event 객체의 Signal을 기다리는 메서드
+    - 어떤 스레드가 WaitOne() 메서드를 호출하는 시점에 이벤트 객체가 Signal 상태이면 메서드에서 곧바로 제어가 반환되지만, Non-Signal 상태였다면 이벤트 객체가 Signal 상태로 바뀔 때까지 WaitOne() 메서드는 제어를 반환하지 않는다. 즉, 스레드는 대기 상태에 빠진다
+- ThreadPool에 넣은 스레드의 Join() 역할 가능
+- AutoReset, ManualReset
+    - Signal 상태로 전환된 Event 객체가 Non-Signal 상태로 자동으로 전환되는가 혹은 수동으로 전환되는가의 차이
+    - AutoReset : 대기하고 있던 스레드 중 단 1개의 스레드만을 깨운 후 곧바로 Non-Signal 상태로 바뀐다. 대기하고 있던 스레드가 없다면 그에 상관없이 곧바로 Non-Signal 상태로 바뀐다
+    - ManualReset : 명시적인 Reset() 메서드를 호출하기 전까지 이벤트의 Signal 상태를 지속시킨다. 관건은 깨어난 스레드가 얼마나 빨리 Reset() 메서드를 호출하느냐이다.
+```C#
+    // 생성자의 첫 번째 인자가 false이면 Non-Signal 상태로 시작.
+    // true이면 Signal 상태로 시작
+    EventWaitHandle ewh = new EventWaitHandle(false, EventResetMode.ManualReset);
+    new Thread(obj => (obj as EventWaitHandle).Set()).Start(ewh);
+    ewh.WaitOne(); // Non-Signal 상태에서 WaitOne을 호출했으므로 Signal 상태로 바뀔 때까지 대기
+```
 #### ReaderWriterLock
 ### NetWork 구현: Server, Client
 - Server
