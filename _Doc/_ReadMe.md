@@ -16,6 +16,9 @@
 ## C# 7.1
 - [Site](https://www.sysnet.pe.kr/2/0/12408)
 ### CSharp7.1
-- 소스
+#### cs9_netcore_sample-master
     - [.Net FrameWork](https://github.com/stjeong/cs9_netfx_sample)
+#### cs9_netfx_sample-master
     - [.Net Core](https://github.com/stjeong/cs9_netcore_sample)
+#### OfficePresenter-master
+    - [3부 모바일 실습](https://github.com/stjeong/OfficePresenter)
