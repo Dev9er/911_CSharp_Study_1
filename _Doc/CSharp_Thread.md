@@ -83,16 +83,15 @@
 ```
 ### Thread 속성, 메서드
 #### Thread 속성
-- Name
-- IsAlive
 - IsBackground
     - `thread.IsBackground = true;`
     - Foreground : 주 쓰레드와 독립적으로 동작.
     - Background : Main Thread 와 생사(종료)를 같이 한다.
 - public static Thread CurrentThread { get; }
+    - `Thread thread = Thread.CurrentThread;`
+    - Thread.CurrentThread.ManagedThreadId;
     - Thread.CurrentThread.GetHashCode();
     - Thread.CurrentThread.Abort();
-    - Thread.CurrentThread.ManagedThreadId;
 - Priority : 우선 순위
     - `thread.Priority = ThreadPriority.Highest;` // 우선순위 높게 
     - ThreadPriority 열거형
@@ -101,12 +100,14 @@
         - Lowest
 - Thread State
     - ThreadState 열거형
-    `System.Threading.ThreadState`
+    `ThreadState threadState = thread.ThreadState;`
     - ThreadState 열거형은 [Flags] 특성을 사용하므로, 여러 상태를 동시에 나타낼 수 있다.
+- Name
+- IsAlive
 #### Thread 메서드
 - Start()
 - Join() : 실, 계산 작업을 하는 스레드가 모든 계산 작업을 마쳤을때, 계산 결과값을 받아 이용하는 경우에 주로 사용, 현재 스레드는 일시 정지됨.
-- Thread.Sleep() : 다른 스레드도 CPU를 사용할 수 있도록 CPU 점유를 푼다.
+- Thread.Sleep() : 다른 스레드도 CPU를 사용할 수 있도록 CPU 점유를 푼다. ThreadState.WaitSleepJoin 상태로 실행 중단
     - `Thread.Sleep(1000); // 1초 대기(지연)`
 - Thread.Interrupt() : 종료시, 추천
     - WaitSleepJoin 상태에서 ThreadInterruptedException 예외 던짐

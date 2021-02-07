@@ -1,5 +1,6 @@
 # Thread
 ## 개념
+- Process, Thread 실행 구조
 - 응답성
 - 작업 관리자
 - OS, Process, Thread(실)
