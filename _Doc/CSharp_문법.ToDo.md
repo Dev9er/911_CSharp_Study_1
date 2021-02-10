@@ -23,13 +23,13 @@
 1. 논리 병합 조건 할당 ,
 #### 우선순위
 1. 주(후위)
-   - f(x) a[x] x.y x?.y x?[y] x->y
-   - x++ x-- x!
-   - new nameof typeof sizeof default
-   - checked unchecked delegate stackalloc
+   - f(x) a[x] x.y x?.y x?[y] : 5
+   - x++ x-- x!   : 2 1 -> 8
+   - new nameof typeof sizeof default  : 5
+   - checked unchecked delegate stackalloc x->y : 2 2 1 -> 5 -> 10 -> 18
 1. 전위(단항)
-    - +x -x ++x --x !x ~x ^x (T)x &x *x
-   - await true false
+   - (T)x +x -x !x ~x ^x ++x --x   : 8
+   - await true false &x *x   : 3 2 -> 5 -> 13
 1. 범위 x..y
 1. switch 식
 1. with 식
@@ -50,7 +50,7 @@
       1. ||
 1. 병합 ??
 1. 조건 ? :
-1. 할당(람다) => ??= = += -= *= /= %= &= |= ^= <<= >>=
+1. 할당(람다) => ??= = *= /= %= += -= <<= >>= &= ^= |=   : 13
 1. 순차적 계산 ,
 #### 결합성
 - 연산자 결합성 :
