@@ -2,6 +2,7 @@
 ## async, await
 - 비동기 호출을 마치 동기 방식처럼 호출하는 코드 작성
 ### async
+- 비동기 메서드 표시
 - 메서드, 이벤트 처리기, 태스크, 람다식 등 수식하기만 하면 비동기 코드 생성
 ### 반환 형식 : await로 대기할 수 있는 xxxAsync 메서드의 반환값
 - Task, Task<TResult> : 작업이 완료될 때까지 기다리는 메서드
@@ -13,6 +14,7 @@
     - 이벤트 처리기를 제외하고는 async void 는 지양한다
 - await 없이 Task 타입을 단독으로 사용하면, ThreadPool.QueueUserWorkItem() 대용으로 쓸 수 있다
 ### Await
+- await 키워드는 await 키워드 뒤에 오는 비동기 메서드 또는 Task가 실행이 끝날때까지 대기하도록 하는 것
 - Async 류의 비동기 호출에 await가 함께 쓰이면, C# 컴파일러는 await 이후의 코드를 묶어서 Async의 비동기 호출이 끝난 후에 ThreadPool 에서 실행되도록 코드를 변경해서 컴파일한다.
 - await 는 메서드에 async가 지정되지 않으면 예약어로 인식되지 않는다
 - async void : await 연산자가 없어도 비동기로 실행

@@ -1,5 +1,6 @@
 # C# 문법
 ## Task
+- 비동기 프로그램 : IO Binding Code, CPU Binding Code
 - `System.Threading.Tasks`
 - 메서드 호출 방법
     - Synchronous 호출 : 메서드 호출 후, 실행이 종료(반환) 되어야 다음 메서드 호출 (Blocking Call)
@@ -117,6 +118,13 @@
     Task.WaitAll(task1, task2);
     // 2개의 작업을 병렬로 비동기 호출
     await Task.WhenAll(task3, task5);
+    // WhenAny
+    var allTasks = new List<Task> { rTask, sTask, eTask };
+    while (allTasks.Any()) // 작업이 하나라도 있으면 실행
+    {
+        Task finished = await Task.WhenAny(allTasks);
+        if (finished == rTask) ;
+    }
 ```
 ### Task 결과값
 ```C#
@@ -153,4 +161,34 @@
         }
     }
 ```
-### 동기화
+### Task 메서드
+- Task.Run() : CPU Binding된 코드를 묶어 비동기 처리를 하는 경우
+```C#
+    await Task.Run(() =>
+    {
+        for (int i = 0; i < 300; i++)
+        {
+            Console.WriteLine(i + 1);
+        }
+    });
+```
+- Thread.Sleep() : 현재 스레드를 차단하고, 지정된 시간만큼 기다린 후, Thread.Sleep() 이하의 문장 실행 (blocking)
+- Task.Delay() : 지정된 시간 후에 종료(완료)되는 Task를 생성하여 실행하며, 동시에 Task.Delay() 이하의 문장도 계속 실행 (non-blocking)
+- await Task.Delay() : 현재 Thread를 바로 호출 지점으로 반환시키고, await 문장 이후의 코드를 사용하여 새로운 Task를 생성한 후, 지정된 시간 경과 후에, 앞에 생성해 놓은 Task를 실행 (non-blocking)
+- `Task<TResult> Task.FromResult<TResulet>(TResult result);`
+```C#
+    var forecasts = await service.GetForecastAsync(DateTime.Now);
+
+    public Task<WeatherForecast[]> GetForecastAsync(DateTime startDate)
+    {
+        var rng = new Random();
+
+        return Task.FromResult(Enumerable.Range(1, 5).Select(idx => new WeatherForecast
+        {
+            Date = startDate.AddDays(idx),
+            TemperatureC = rng.Next(-20, 55),
+        }).ToArray());
+    }
+
+    //return await Task.FromResult<Egg>(new Egg());
+```

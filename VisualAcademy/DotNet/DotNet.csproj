@@ -256,12 +256,9 @@
     <Compile Include="51_Tuple\05_TupleDefault\TupleDefault.cs" />
     <Compile Include="51_Tuple\06_TupleReturnName\TupleReturnName.cs" />
     <Compile Include="52_ClassLibrary\_\GetExecutingAssemblyDemo.cs" />
-    <Compile Include="55_Thread\02_ThreadPractice\ThreadPractice.cs" />
-    <Compile Include="55_Thread\ThreadNote.cs" />
     <Compile Include="61_Functional\AggregateDemo\AggregateDemo.cs" />
     <Compile Include="62_Modern\CSharpSeven\CSharpSeven.cs" />
     <Compile Include="62_Modern\_\RefReturn.cs" />
-    <Compile Include="56_Async\03_AsyncAwaitWithTask\AsyncAwaitWithTask.cs" />
     <Compile Include="63_Debuger\DebugDemo\DebugDemo.cs" />
     <Compile Include="63_Debuger\_\디버깅.cs" />
     <Compile Include="12_BitShiftConditional\01_BitAnd\BitAnd.cs" />
@@ -703,14 +700,6 @@
     <Compile Include="11_RelationalLogical\03_AndOperator\AndOperator.cs" />
     <Compile Include="09_Operator\ArithmeticExam\ArithmeticExam.cs" />
     <Compile Include="10_AssignmentIncrement\01_AssignmentOperator\AssignmentOperator.cs" />
-    <Compile Include="56_Async\AsyncAwaitDemo\AsyncAwaitDemo.cs" />
-    <Compile Include="56_Async\AsyncAwaitDescription\AsyncAwaitDescription.cs" />
-    <Compile Include="56_Async\04_AsyncAwaitSimple\AsyncAwaitSimple.cs" />
-    <Compile Include="56_Async\_\AsyncAwaitWithHttpClient.cs" />
-    <Compile Include="56_Async\_\AsyncAwaitWithHttpClient2.cs" />
-    <Compile Include="56_Async\02_AsyncMain\AsyncMain.cs" />
-    <Compile Include="56_Async\_\AsyncVoidDemo.cs" />
-    <Compile Include="56_Async\AwaitWithTryCatchFinally\AwaitWithTryCatchFinally.cs" />
     <Compile Include="48_Generic\_\CollectionInitializer.cs" />
     <Compile Include="48_Generic\01_CollectionInitializers\CollectionInitializers.cs" />
     <Compile Include="48_Generic\06_CollectionMerge\CollectionMerge.cs" />
@@ -728,9 +717,6 @@
     <Compile Include="37_Method\12_GreetingPage\GreetingPage.cs" />
     <Compile Include="24_Class\EnvironmentVariable\EnvironmentVariable.cs" />
     <Compile Include="61_Functional\HigherOrderFunction\HigherOrderFunction.cs" />
-    <Compile Include="55_Thread\03_ConcurrencyFor\ConcurrencyFor.cs" />
-    <Compile Include="55_Thread\04_ParallelFor\ParallelFor.cs" />
-    <Compile Include="55_Thread\01_ThreadDemo\ThreadDemo.cs" />
     <Compile Include="60_Network\01_HttpClientDemo\HttpClientDemo.cs" />
     <Compile Include="60_Network\03_HttpWebRequestDemo\HttpWebRequestDemo.cs" />
     <Compile Include="07_BoolCharString\Immutable\Immutable.cs" />
@@ -770,7 +756,6 @@
     <Compile Include="30_LINQ\34_LinqSelect\LinqSelect.cs" />
     <Compile Include="59_XmlAndJSON\02_JsonConvertDemo\JsonConvertDemo.cs" />
     <Compile Include="48_Generic\_\ListOfTypeSimpleMerge\ListOfTypeSimpleMerge.cs" />
-    <Compile Include="56_Async\_\MainMethodAsync.cs" />
     <Compile Include="42_ClassEtc\01_PartialClassDemo\FirstDeveloper.cs" />
     <Compile Include="42_ClassEtc\01_PartialClassDemo\PartialClassDemo.cs" />
     <Compile Include="42_ClassEtc\01_PartialClassDemo\SecondDeveloper.cs" />
@@ -823,10 +808,8 @@
     <Compile Include="24_Class\02_SquareClass\SquareClass.cs" />
     <Compile Include="64_Tips\StringConverterDemo\StringConverterDemo.cs" />
     <Compile Include="66_Etc\SingleResponsibilityPrinciple.cs" />
-    <Compile Include="56_Async\01_SyncDemo\SyncDemo.cs" />
     <Compile Include="08_ReadLine\17_TypeAssertion\TypeAssertion.cs" />
     <Compile Include="22_Struct\_\UserRegister\UserRegister.cs" />
-    <Compile Include="56_Async\WeatherForecastApp\WeatherForecastApp.cs" />
     <Compile Include="48_Generic\11_GenericClass\GenericClass.cs" />
     <Compile Include="48_Generic\13_GenericNote\GenericNote.cs" />
     <Compile Include="48_Generic\15_GenericsDemo\GenericsDemo.cs" />
@@ -986,7 +969,6 @@
     <Compile Include="28_GenericClass\_\리스트제네릭클래스.cs" />
     <Compile Include="66_Etc\변환연산자.cs" />
     <Compile Include="42_ClassEtc\_\분할클래스.cs" />
-    <Compile Include="55_Thread\_\스레드.cs" />
     <Compile Include="24_Class\_\스태틱과인스턴스\스태틱과인스턴스.cs" />
     <Compile Include="03_HelloWorld\_\안녕하세요.cs" />
     <Compile Include="31_Algorithms\06_01_NearAlgorithm\06_02_NearAll\06_02_NearAll.cs" />
@@ -1179,8 +1161,6 @@
     <Content Include="53_TestProject\53_TestProject.txt" />
     <Content Include="54_NuGet\54_NuGet.txt" />
     <Content Include="60_Network\60_Network.txt" />
-    <Content Include="56_Async\56_Async.txt" />
-    <Content Include="55_Thread\55_Thread.txt" />
     <Content Include="65_TODO\65_TODO.txt" />
     <Content Include="66_Etc\01_기본클래스와파생클래스.cs.txt" />
     <Content Include="66_Etc\01_추상클래스와추상메서드.cs.txt" />

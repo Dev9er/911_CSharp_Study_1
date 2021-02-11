@@ -27,7 +27,7 @@
             - CPU Scheduler Scheduling
             - Thread Priority(우선 순위 방식)
             - Round Robin(순환 할당 방식)
-    - 병렬 처리(Parallel Processing): 멀티 작업을 위해 멀티 코어에서 개별 스레드를 동시에 실행하는 것
+    - 병렬 처리(Parallel Processing): 멀티 작업을 위해 멀티 코어에서 개별 스레드를 동시에 실행하는 것 (TPL)
 - 멀티 스레드 장점
     - 사용자 대화형 프로그램에서 응답성을 높임
         - Freeze, Lock, Hang, Lag
@@ -66,7 +66,7 @@
 ```
 #### Thread 실행
 ```C#
-    thread.Start();
+    thread.Start(); // 새로운 스레드를 생성하고 실행할 때까지 시간 소요
     thread2.Start(parameter);
     // Process
     Process.Start("Notepad.exe");  // 메모장 실행
@@ -118,6 +118,11 @@
 ```C#
     DateTime start = DateTime.Now;
     int elapsed = (DateTime.Now - start).TotalSeconds;
+
+    Stopwatch stopwatch = new Stopwatch();
+    stopwatch.Start();
+    stopwatch.Stop();
+    stopwatch.ElapsedMilliseconds;
 ```
 ### Thread Stack
 - User 모드 Thread Stack
