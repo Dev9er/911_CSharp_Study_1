@@ -1,7 +1,76 @@
 # C# 문법
 ## delegate
+### delegate : 대리자, 대리인, 사절
+#### 개념
+- Event (사건)
+- Event Driven Programming
+- Callback : 어떤 일을 대신해줄 코드를 두고, 이 코드가 실행할 세부 코드는 컴파일 시점이 아닌 실행 시점에 부여하는 것.
+- 대리자는 콜백 구현을 위해 사용
+- 참조 변수 : 객체의 주소
+- 대리자 : 메서드에 대한 참조
+- 값이 아닌 코드 자체를 매개변수로 넘기고 싶을 때 사용.
+- 대리자에 메서드의 주소를 할당한 후 대리자를 호출하면 이 대리자가 메서드를 호출해 줌
+- 대리자는 형식(Type)이다.
+- delegate는 형식이므로 "메서드를 참조하는 그 무엇"을 만들려면 delegate의 인스턴스를 따로 만들어야 한다.
+- 대리자는 여러 개의 메서드를 동시에 참조할 수 있다. 대리자 체인 (+=, -=)
+- 대리자 체인은 한 번만 호출하면 자신이 참조하고 있는 모든 메서드를 호출한다.
+    - MyDelegate myDelegate += A;
+        - myDelegate += B;
+        - myDelegate -= A;
+    - Delegate.Combine() as MyDelegate;
+    - Delegate.Remove() as MyDelegate;
+#### 선언
+- 대리자가 참조할 메서드 선언
+    - `int Plus(int a, int b) => a + b;`
+    - `int Minus(int a, int b) => a - b;`
+- 대리자는 메서드에 대한 참조이므로 자신이 참조할 메서드의 Signiture를 명시해 주어야 한다.
+- `한정자 delegate 반환형식 대리자이름(매개변수 목록);`
+- `public delegate int MyDelegate(int a, int b);`
+- `public delegate int Compare<T>(T a, T b);`
+- 대리자의 인스턴스 생성시, 대리자가 참조할 메서드를 매개변수로 넘긴다.
+- 대리자를 호출하면 대리자는 현재 자신이 참조하고 있는 주소에 있는 메서드의 코드를 실행하고 그 결과를 호출자에게 반환한다.
+#### Callback 만들기와 메서드 호출
+```C# 
+    MyDelegate callback;
+    callback = new MyDelegate(Plus);
+    Console.WriteLine($"3 + 4 = {callback(3, 4)}");
+    callback = new MyDelegate(Minus);
+    Console.WriteLine($"3 - 4 = {callback(3, 4)}");
+```
+### Anonymous Method : 익명 메서드
+- 이름이 없는 메서드
+```C#
+    public delegate int Calculate(int a, int b);
+    Calculate calc;
+    calc = delegate (int a, int b) { return a + b};
+    Console.WriteLine($"3 + 4 = {calc(3, 4)}");
+```
 ### Anonymous Function
-### Anonymous Method
+### Event
+#### 개념
+- 알람 시계처럼 어떤 일이 생겼을때 이를 알려주는 객체
+- 이벤트는 대리자를 event 한정자로 수식해서 만든다
+- 객체의 상태 변화나 사건의 발생을 알리는 용도로 사용한다.
+- delegate와 달리 event는 외부에서 직접 사용할 수 없다.
+#### 선언
+```C#
+    class EventFirer
+    {
+        public delegate void EventHandler(string message);
+        public event EventHandler SomethingHappened;
+        public void DoWork() { SomethingHappened("메시지"); }
+    }
+    class EventSubscriber
+    {
+        static private void MyHandler(string mes) { Console.Write(mes);}
+        private void Subscribe()
+        {
+            EventFirer firer = new EventFirer();
+            firer.SomethingHappened += new EventHandler(MyHandler);
+            firer.DoWork();
+        }
+    }
+```
 ### 람다식 : Lambda Expression, 무명 함수
 - 분명하고 간결한 방법으로 함수를 묘사하기 위해 고안
 - 함수의 정의와 변수, 그리고 함수의 적용으로 구성
@@ -65,45 +134,6 @@
     int result = sqr(4);
     // 상동
     Func<int, int> sqr = (x) => x * x;
-```
-- in Jave : 익명 구현 객체 생성
-    - Target Type : interface 변수 = 람다식;
-        - 람다식이 대입되는 인터페이스
-        - 익명 구현 객체를 만들 때 사용할 인터페이스
-    - Functional Interface : 함수적 인터페이스
-        - 하나의 추상 메서드만 선언된 인터페이스
-        - 람다식은 하나의 메서드를 정의하기 때문에 하나의 추상 메서드만 선언된 인터페이스만 타겟 타입이 될 수 있음
-        - @FunctionalInterface 어노테이션
-            - 하나의 추상 메서드만을 가지는지 컴파일러가 체크하도록 함
-            - 두 개 이상의 추상 메서드가 선언되어 있으면 컴파일 오류 발생
-    - 람다식 실행 블록에는 클래스의 멤버인 필드와 메소드를 제약없이 사용할 수 있다
-    - 람다식에서 사용하는 외부 로컬 변수는 final 특성을 갖는다
-    - 람다식 실행 블록 내에서 this는 람다식을 실행한 객체의 참조이다
-- java.util.function 패키지의 표준 API Functional Interface
-    - 매개타입으로 사용되어 람다식을 매개값으로 대입할 수 있도록 해준다
-    - Consumer
-    - Supplier
-    - Function
-    - Operator
-    - Predicate
-- Method References
-    - 정적 메서드 참조
-        - Math::max
-        - IntBinaryOperator operator = Math::math
-    - 인스턴스 메서드 참조
-        - 참조변수::메서드
-            - instance::method
-```Java
-        @FunctionalInterface
-        public interface MyFunctionalInterface {
-            public void method();
-        }
-        MyFunctionalInterface lambda = () -> {};
-        // 상동
-        MyFunctionalInterface lambda = new MyFunctionalInterface() {
-            public void method() {};
-        };
-        lambda.method();
 ```
 #### Lambda 식을 메서드 파라미터로 전달
 ```C#
