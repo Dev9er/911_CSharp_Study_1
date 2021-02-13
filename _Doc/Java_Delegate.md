@@ -1,4 +1,68 @@
 ## Delegate
+### 인터페이스
+- interface {상수, abstract 메서드, default 메서드, 정적 메서드}
+```Java
+    public interface MyInterface {  // 인터페이스
+        public final int volume = 123;
+        public abstract void turnOn();
+        default void turnOff() {System.out.println("껏네!");}   // 인스턴스 멤버 : myClass.turnOff();
+        static void toggle() {System.out.println("바꿔라!");}   // Static 멤버 : MyInterface.toggle();
+    }
+    default class MyClass implements MyInterface {} // 구현클래스
+    public class MyAnotherClass {
+        // 사용법
+        MyInterface.toggle();
+        MyClass myClass = new MyClass();
+        MyInterface my = new MyClass(); // 자동 타입 변환 UpCast(Interface 배열)
+        if (my instanceof MyClass) {
+            MyClass myClass = (MyClass)my;  // 강제 타입 변환 DownCast
+        }
+        my.turnOff();
+        // 사용처 : 필드, 생성자, 로컬 변수, 함수 인자
+        MyInterface my = new MyInterfaceClass();
+        MyClass(MyInterface my) {this.my = my}  // 하동
+        void methodA() { MyInterface my = new MyInterfaceClass();}
+        void methodB(MyInterface my) {} // 다형성 : MyInterface or 구현객체
+    }
+```
+### 익명 구현 객체
+- 명시적인 구현 클래스 작성을 생략하고 바로 구현 객체를 얻는 방법
+- 이름이 없는 구현 클래스 선언과 동시에 객체를 생성한다.
+- 인터페이스의 추상 메서드들을 모두 재정의하는 실제 메서드가 있어야 한다.
+- 추가적으로 필드와 메서드를 선언할 수 있지만, 익명 객체 안에서만 사용할 수 있고, 인터페이스 변수로 접근할 수 없다.
+- UI 프로그래밍에서 이벤트를 처리하기 위해 주로 사용
+- 임시 작업 스레드를 만들기 위해 사용
+- 람다식은 내부적으로 익명 구현 객체를 사용
+- 익명 구현 객체도 클래스(바이트코드) 파일을 가지고 있다
+```Java
+    public interface MyInterface {
+        public final int volume = 123;
+        public abstract void turnOn();
+        default void turnOff() {System.out.println("껏네!");}
+        static void toggle() {System.out.println("바꿔라!");}
+    }
+    MyInterface my = new MyInterface() {
+        // 인터페이스에 선언된 추상 메서드의 실제 메서드 구현
+        @Override   // annotation
+        public void turnOn() {}
+        @Overrride public void turnOff() {}
+        public toggle() {}
+    }
+```
+### 익명 (자식) 객체 : 이름이 없는 객체
+- 익명 객체는 단독으로 생성할 수 없다.
+- 클래스를 상속하거나 인터페이스를 구현해야만 생성할 수 있다.
+```Java
+    // 사용처 : 필드나 로컬변수의 초기값, 매개변수의 매개값 대입
+    // UI 이벤트 처리 객체, 스레드 객체
+    ParentClass pc = new ParentClass() {
+        int childField; // 익명 객체 내부에서만 사용 가능
+        void childMethod() {} // 익명 객체 내부에서만 사용 가능
+        @Override
+        void parentMethod() {}
+    }
+```
+###
 - in Jave : 익명 구현 객체 생성
     - Target Type : interface 변수 = 람다식;
         - 람다식이 대입되는 인터페이스
