@@ -130,10 +130,15 @@ class Program
 - 대리자의 인스턴스 생성시, 대리자가 참조할 메서드를 매개변수로 넘긴다.
 - 대리자를 호출하면 대리자는 현재 자신이 참조하고 있는 주소에 있는 메서드의 코드를 실행하고 그 결과를 호출자에게 반환한다.
 #### Callback 만들기와 메서드 호출
+```C#
  public delegate int Calculate(int a, int b);
     Calculate calc;
+    calc = new Calculate(Plus)
+    calc = Minus;
     calc = delegate (int a, int b) { return a + b};
+    calc = (a, b) => a + b;
     Console.WriteLine($"3 + 4 = {calc(3, 4)}");
+    calc.Invoke(3, 4);
 ```
 ### 람다식 : Lambda Expression, Anonymous Function, 무명 함수
 #### 분류
@@ -173,6 +178,7 @@ class Program
         Console.WriteLine("사용");
     };
     DoIt();
+    DoIt.Invoke();
 ```
 #### 익명 메서드를 람다식으로
 ```C#
@@ -181,6 +187,7 @@ class Program
     Calculate calc = (int a, int b) => a + b;
     Calculate calc = (a, b) => a + b;
     calc(3, 4);
+    calc.Invoke(3, 4);
 ```
 ```C#
     button.Click += delegate (object s, EventArgs ea)

@@ -2,6 +2,7 @@
 ## 개념
 - 작업 관리자
 - OS, Process, Thread(실) 실행 구조
+    - Pointer
 - 응답성 : CLI, Event Driven Programming
 - Callback : 함수 포인터
     - 메서드 입장에서의 호출자(Caller)와 피호출자(Callee) 관계

@@ -12,12 +12,20 @@ class DelegateDemo
 
     static void Main()
     {
-        //[A] Hi 함수를 say 이름으로 대신해서 호출
-        SayDelegate say = Hi;
-        say();
+        unsafe
+        {
+            int i = 1234;
+            int* ip = &i;
+            (*ip)++;
+            //int (*funcT) (int, int) = &Plus;
+            DelegateDemo dd = new DelegateDemo();
+            delegate*<int, int, double> fp = &DelegateDemo.Plus;
+            Console.WriteLine($"i 값 : {fp(3 , 4)}");
 
-        //[B] Hi 함수를 hi 이름으로 대신해서 호출: 또 다른 모양
-        var hi = new SayDelegate(Hi);
-        hi();
+        }
     }
+            static double Plus(int i, int j)
+            {
+                return i + j;
+            }
 }
