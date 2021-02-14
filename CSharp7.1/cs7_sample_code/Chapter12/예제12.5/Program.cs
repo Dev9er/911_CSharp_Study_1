@@ -42,8 +42,8 @@ namespace 예제12._5
         private EventHandler positionChanged;
         public event EventHandler PositionChanged // 이벤트의 add/remove 접근자 정의 가능
         {
-            add => this.positionChanged += value;
-            remove => this.positionChanged -= value;
+            add => positionChanged += value;
+            remove => positionChanged -= value;
         }
 
         public Vector Move(double dx, double dy)

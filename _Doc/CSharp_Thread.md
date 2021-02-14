@@ -56,6 +56,7 @@
 ```
 #### Thread 생성
 ```C#
+    Thread thread = new Thread(delegate() {});
     Thread thread = new Thread(() => {});
     Thread thread = new Thread(ThreadFunction);
     Thread thread = new Thread(new ThreadStart(ThreadFunction));

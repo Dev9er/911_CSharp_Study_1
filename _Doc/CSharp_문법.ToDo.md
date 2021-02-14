@@ -20,7 +20,7 @@
 #### &#10024; 암기법 &#10024;
 1. 주전 범위 switch with
 1. 산술 Shift 관계
-1. 논리 병합 조건 할당 ,
+1. 논리 병합 조건 할당 쉼
 #### 우선순위
 1. 주(후위)
    - f(x) a[x] x.y x?.y x?[y] : 5
@@ -51,7 +51,7 @@
 1. 병합 ??
 1. 조건 ? :
 1. 할당(람다) => ??= = *= /= %= += -= <<= >>= &= ^= |=   : 13
-1. 순차적 계산 ,
+1. 쉼표 연산자 : , 순차적 계산
 #### 결합성
 - 연산자 결합성 :
   - 연산자의 결합성이 연산이 수행되는 순서를 결정
@@ -59,7 +59,52 @@
   - 대입 연산자, null 병합 연산자 및 조건 연산자 ?:는 오른쪽 결합성
   - 괄호를 사용하여 연산자 결합성에 따라 주어진 계산 순서를 변경
   - 피연산자 계산 : 연산자 우선 순위 및 결합성과 관계없이 식의 피연산자는 왼쪽에서 오른쪽으로 계산
-
+### 지역 함수 : Local Function
+```C#
+   // 익명 메서드
+   delegate (bool, int) MyDivide(int a, int b);
+   MyDivide func = delegate (int a, int b)
+   {
+         if (b == 0)
+         {
+            return (false, 0);
+         }
+         return (true, a / b);
+   };
+   Console.WriteLine(func(10, 5)); 
+```
+```C#
+   // 익명 메서드를 람다 식으로
+   delegate (bool, int) MyDivide(int a, int b);
+   MyDivide func = (a, b) =>
+   {
+         if (b == 0)
+         {
+            return (false, 0);
+         }
+         return (true, a / b);
+   };
+   Console.WriteLine(func(10, 5));
+```
+```C#
+   // 지역 함수 사용시, 델리게이트 정의와 상관없이 사용 가능
+   void LocalFunctionTest()
+   {
+      // 지역 함수는 컴파일러에 의해 internal로 생성되지만,
+      // 지역 함수 밖에서 호출 불가
+      (bool, int) func(int a, int b)
+      {
+            if (b == 0)
+            {
+               return (false, 0);
+            }
+            return (true, a / b);
+      };
+      (bool, int) func(int a, int b) =>
+         (b == 0) ? (false, 0) : (true, a / b);
+      Console.WriteLine(func(10, 5));
+   }
+```
 ## C# 교과서 목차
 목차
 1부 C# 준비
