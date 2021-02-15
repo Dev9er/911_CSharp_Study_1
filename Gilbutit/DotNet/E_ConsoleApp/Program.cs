@@ -1,31 +1,37 @@
-﻿// DelegateDemo.cs
-//[?] 대리자: 영어 단어의 delegate는 "위임하다" 또는 "대신하다"의 뜻
+﻿// 무명 메서드(Anonymous Method): 대리자를 축약해서 표현하는 방법
 using System;
 
-class DelegateDemo
+namespace AnonymousMethod
 {
-    //[1] 함수 생성 -> 매개 변수도 없고 반환값도 없는 함수
-    static void Hi() => Console.WriteLine("안녕하세요.");
-
-    //[2] 대리자 생성 -> 매개 변수도 없고 반환값도 없는 함수를 대신 실행할 대리자
-    delegate void SayDelegate();
-
-    static void Main()
+    public class Print
     {
-        unsafe
-        {
-            int i = 1234;
-            int* ip = &i;
-            (*ip)++;
-            //int (*funcT) (int, int) = &Plus;
-            DelegateDemo dd = new DelegateDemo();
-            delegate*<int, int, double> fp = &DelegateDemo.Plus;
-            Console.WriteLine($"i 값 : {fp(3 , 4)}");
+        public static void Show(string msg) => Console.WriteLine(msg);
+    }
 
+    public class AnonymousMethod
+    {
+        //[!] 대리자 선언
+        public delegate void PrintDelegate(string msg);
+        public delegate void SumDelegate(int a, int b);
+        static void Main()
+        {
+            //[1] 메서드 직접 호출
+            Print.Show("안녕하세요.");
+
+            //[2] 대리자에 메서드 등록 후 호출
+            PrintDelegate pd = new PrintDelegate(Print.Show);
+            pd("반갑습니다.");
+
+            //[3] 무명(익명) 메서드로 호출: delegate 키워드로 무명 메서드 생성 
+            PrintDelegate am = delegate (string msg)
+            {
+                Console.WriteLine(msg);
+            };
+            am("또 만나요.");
+
+            //[4] 무명메서드 생성 및 호출
+            SumDelegate sd = delegate (int a, int b) { Console.WriteLine(a + b); };
+            sd(3, 5); // 8
         }
     }
-            static double Plus(int i, int j)
-            {
-                return i + j;
-            }
 }

@@ -113,7 +113,7 @@ class Program
         - System.Object <- System.Delegate <- System.MulticastDelegate
 - delegate는 형식이므로 "메서드를 참조하는 그 무엇"을 만들려면 delegate의 인스턴스를 따로 만들어야 한다.
 - 대리자는 여러 개의 메서드를 동시에 참조할 수 있다. 대리자 체인 (+=, -=)
-- 대리자 체인은 한 번만 호출하면 자신이 참조하고 있는 모든 메서드를 호출한다.
+- 대리자 체인은 한 번만 호출하면 자신이 참조하고 있는 모든 메서드를 호출한다. (다중 호출)
     - MyDelegate myDelegate = A;
         - myDelegate += B;
         - myDelegate -= A;

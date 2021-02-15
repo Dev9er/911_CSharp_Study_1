@@ -234,7 +234,6 @@
     <Compile Include="31_Algorithms\PrimeNumber\PrimeNumber.cs" />
     <Compile Include="32_Object\01_ClassAndObject\ClassAndObject.cs" />
     <Compile Include="33_Namespace\_\새로운클래스.cs" />
-    <Compile Include="40_Delegate\03_DelegateGetArea\DelegateGetArea.cs" />
     <Compile Include="40_Delegate\09_IntParameterAndIntReturnClass\IntParameterAndIntReturnClass.cs" />
     <Compile Include="42_ClassEtc\OperatorOverload\OperatorOverload.cs" />
     <Compile Include="50_Dynamic\04_DynamicBinding\DynamicBinding.cs" />
@@ -388,10 +387,8 @@
     <Compile Include="39_Indexer\10_IteratorFibonacci\IteratorFibonacci.cs" />
     <Compile Include="40_Delegate\15_FuncLambda\FuncLambda.cs" />
     <Compile Include="40_Delegate\22_FuncParameter\FuncParameter.cs" />
-    <Compile Include="40_Delegate\05_FunctionPointer\FunctionPointer.cs" />
     <Compile Include="40_Delegate\20_LambdaExpressionWithPredicate\LambdaExpressionWithPredicate.cs" />
     <Compile Include="40_Delegate\19_PredicateDemo\PredicateDemo.cs" />
-    <Compile Include="40_Delegate\06_StronglyTypedDelegate\StronglyTypedDelegate.cs" />
     <Compile Include="48_Generic\16_GenericMethod\GenericMethod.cs" />
     <Compile Include="48_Generic\04_LinqCollectionDemo\LinqCollectionDemo.cs" />
     <Compile Include="30_LINQ\16_LinqAnyNumber\LinqAnyNumber.cs" />
@@ -622,8 +619,6 @@
     <Compile Include="39_Indexer\_\인덱서확장.cs" />
     <Compile Include="41_Event\_\이벤트\이벤트.cs" />
     <Compile Include="41_Event\01_EventDemo\EventDemo.cs" />
-    <Compile Include="40_Delegate\04_AnonymousDelegate\AnonymousDelegate.cs" />
-    <Compile Include="40_Delegate\01_DelegateDemo\DelegateDemo.cs" />
     <Compile Include="40_Delegate\14_DelegateParameter\DelegateParameter.cs" />
     <Compile Include="40_Delegate\17_FuncDemo\FuncDemo.cs" />
     <Compile Include="40_Delegate\18_FuncDelegate\FuncDelegate.cs" />
@@ -631,7 +626,6 @@
     <Compile Include="40_Delegate\_\Func대리자.cs" />
     <Compile Include="40_Delegate\_\무명메서드.cs" />
     <Compile Include="40_Delegate\_\대리자.cs" />
-    <Compile Include="40_Delegate\07_DelegatePractice\DelegatePractice.cs" />
     <Compile Include="40_Delegate\_\대리자설명.cs" />
     <Compile Include="40_Delegate\08_AnonymousMethod\AnonymousMethod.cs" />
     <Compile Include="42_ClassEtc\05_ImmutableTypeDemo\ImmutableTypeDemo.cs" />
@@ -791,7 +785,6 @@
     <Compile Include="35_Constructor\11_ReadOnlyNote\ReadOnlyNote.cs" />
     <Compile Include="34_Field\06_PublicAndPrivate\PublicAndPrivate.cs" />
     <Compile Include="34_Field\07_PublicPrivate\PublicPrivate.cs" />
-    <Compile Include="40_Delegate\02_DelegateNote\DelegateNote.cs" />
     <Compile Include="34_Field\04_FieldArray\FieldArray.cs" />
     <Compile Include="34_Field\03_FieldInitializer\FieldInitializer.cs" />
     <Compile Include="34_Field\08_FieldNote\FieldNote.cs" />
@@ -1104,7 +1097,6 @@
     <Content Include="37_Method\37_Method.txt" />
     <Content Include="38_Property\38_Property.txt" />
     <Content Include="39_Indexer\39_Indexer.txt" />
-    <Content Include="40_Delegate\40_Delegate.txt" />
     <Content Include="41_Event\41_Event.txt" />
     <Content Include="42_ClassEtc\42_ClassEtc.txt" />
     <Content Include="43_Inheritance\43_Inheritance.txt" />
