@@ -1,4 +1,4 @@
-# Java 문법
+/# Java 문법
 ## Thread : CPU 가상화
 ### 용어
 - 파일, 프로그램
@@ -42,7 +42,25 @@
 ```Java
 ```
 #### 함수형 Interface 생성과 Thread 함수 설정
+- 함수형 인터페이스 : 추상 메서드가 하나 뿐인 인터페이스
+- 람다식을 사용하여 함수형 인터페이스의 인스턴스를 나타낼 수 있다.
+- 함수형 인터페이스에는 여러 개의 default 메서드가 있을 수 있다.
+- 함수형 인터페이스의 인스턴스를 생성하기 위해 익명 구현 객체를 주로 사용했지만 람다식을 이용하면 편하다.
+- @FunctionalInterface 어노테이션 사용
+- Runnable, ActionListener, Comparable
+- java.util.function 패키지
+    - Predicate<T> : 하나의 매개변수를 주는 boolean형을 반환하는 test 메서드
+        - Predicate 결합 : negate(), and(), or()
+        - isEqual(), test()
+    - Consumer<T> : 하나의 매개변수를 주는 void형 accept 메서드
+    - Function<T, R> : T유형의 인수를 취하고 R 유형의 결과를 반환하는 추상 메서드 apply
+        - f.andThen(g), f.compose(g)
+    - Supplier<T> : 메서드 인자는 없고 T 유형의 결과를 반환하는 추사 메서드 get
+    - UnaryOperator<T> : 하나의 인자와 리턴 타입을 가진다 T -> T
+    - BinaryOperator : 두 개의 인수, 동일한 타입의 결과를 반환하는 추상 메서드 apply (T, T) -> T
 ```Java
+    Runnable r = () -> System.out.println("Runnable 객체");
+    Thread t = new Thread(() -> System.out.println("Thread 객체));
 ```
 #### Thread 생성
 ```Java
