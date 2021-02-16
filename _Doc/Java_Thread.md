@@ -1,4 +1,4 @@
-/# Java 문법
+# Java 문법
 ## Thread : CPU 가상화
 ### 용어
 - 파일, 프로그램
@@ -280,6 +280,64 @@
     - boolean cancel(boolean mayInterruptIfRunning) : 작업 처리가 진행 중일 경우 취소 시킴
     - boolean isCancelled() : 작업이 취소되었는지 여부 확인
     - boolean isDone() : 작업 처리가 완료되었는지 여부 확인
+- 작업 완료 순으로 통보 받기
+    - 작업의 양과 스레드 스케쥴링에 따라서 먼저 요청한 작업이 나중에 완료되는 경우도 발생
+    - 여러 개의 작업들이 순차적으로 처리될 필요성이 없고, 처리 결과도 순차적으로 이용할 필요가 없다면 작업처리가 완료된 것부터 결과를 얻어 이용하는 것이 좋다.
+    - 스레드 풀에서 작업 처리가 완료된 것만 통보받는 방법
+        -CompletionService는 처리 완료된 작업을 가져오는 poll()과 take() 메서드를 제공
+```Java
+    Future<V> poll() : 완료된 작업의 Future를 가져옴. 완료된 작업이 없다면 즉시 null을 리턴함
+    Future<V> poll(long timeout, TimeUnit unit) : 완료된 작업의 Future를 가져옴. 완료된 작업이 없다면 timeout까지 블로킹 됨
+    Future<V> take() : 완료된 작업의 Future를 가져옴. 완료된 작업이 없다면 있을 때까지 블로킹됨.
+    Future<V> submit(Callable<V> task) : 스레드풀에 Callback 작업 처리 요청
+    Future<V> submit(Runnable task, V result) : 스레프풀에 Runnable 작업 처리 요청
+    ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+    CompletionServiec<V> completionService = new ExecutionCompletionService<V>(executorService);
+    // poll()과 take() 메서드를 이용해서 처리 완료된 작업의 Future를 얻으려면 CompletionService의 submit() 메서드로 작업 처리 요청을 해야 한다.
+    completionService.submit(Callable<V> task);
+    completionService.submit(Runnable task, V result);
+```
+- 완료된 작업 통보 받기
+    - take() 메서드를 반복 실행해서 완료된 작업을 계속 통보 받을 수 있다.
+```Java
+    executorService.submit(new Funnable(){
+        @Override
+        public void run() {
+            while (true) {
+                try {
+                    Future<Integer> future = completionService.take();
+                    int value = future.get();
+                    System.out.println(value);
+                } catch (Exception e) {
+                    break;
+                }
+            }
+        }
+    });
+```
+- 콜백 방식의 작업 완료 통보 받기
+    - 애플리케이션이 스레드에게 작업 처리를 요청한 후, 다른 기능을 수행할 동안, 스레드가 작업을 완료하면 애플리케이션의 메서드를 자동 실행하는 기법을 말한다. 이 때 자동 실행되는 메서드를 콜백 메서드라고 한다.
+    - 콜백 객체 : 콜백 메서드를 가지고 있는 객체
+        - java.nio.channels.Completionhandler 인터페이스 활용
+```Java
+    // CompletionHandler<Integer, Void> callback
+    CompletionHandler<V, A> callback = new CompletionHandler<V, A>() {
+        @Override
+        public void completed(V result, A attachment) {}
+        @Override
+        public void failed(Throwable exc, A attachment) {}
+    };
+    Runnable task = new Runnable() {
+        @Override
+        public void run() {
+            try {
+                V result = callback.completed(result, null);
+            } catch (Exception e) {
+                callback.failed(e, null);
+            }
+        }
+    };
+```
 - 스레드풀 종료
     - 스레드풀의 스레드는 기본적으로 데몬 스레드가 아니다.
     - main 스레드가 종료되더라도 스레드풀의 스레드는 작업을 처리하기 위해 계속 실행되므로 애플리케이션은 종료되지 않는다.
