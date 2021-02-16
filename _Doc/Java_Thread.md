@@ -74,11 +74,29 @@
     thread.start();
 ```
 #### Thread 종료
+- 실행 중인 스레드를 즉시 종료 : ~~stop()~~
+    - 스레드를 즉시 종료시킨다.
+    - 갑자기 종료하면, 사용 중이던 자원들이 불안전한 상태로 남겨진다.
+- stop flag
+    - stop 플래그로 run() 메서드의 정상 종료를 유도한다.
+```Jave
+    private boolean stop = false;
+    public void run() {
+        while (!stop) {}
+    }
+```
+- interrupt()
+    - 일시 정지 상태일 경우, InterruptException을 발생 시킴
+    - 실행 대기 또는 실행 상태에서는 InterruptException이 발생하지 않는다.
 ```Java
+    // 일시 정지 상태로 만들지 않고, while 문을 빠져 나오는 방법
+    threadB.interrupt();
+    boolean status = Thread.interrupted();
+    boolean status = objThread.isInterrupted();
 ```
 ### Thread 속성, 메서드
 #### Thread 속성
-```Jave
+```Java
     // 1(낮음)부터 10(높음)까지
     thread.setPriority(Thread.MAX_PRIORITY);
     thread.setPriority(Thread.NORM_PRIORITY);   // 5
@@ -119,19 +137,123 @@
     - 다른 스레드가 notify() 나 notifyAll()을 호출하면 실행 대기 상태가 된다.
     - wait(long timeout) : notify()가 호출되지 않아도 시간이 지나면 스레드가 자동적으로 실행 대기 상태가 된다.
 #### Thread 메서드
-```Jave
+```Java
     try {Thread.sleep(1000);} catch (InterruptedException ex) {}
     Thread thread = Thread.currentThread();
     // 메인 스레드 == "main"
     // 작업 스레드 이름 == "Thread-n"
     thread.getName();
     thread.setName("스레드 이름");
-    //
+    // 데몬 스레드 : daemon
+    // 주 스레드의 작업을 돕는 보조적인 역할을 수행하는 스레드
+    // 주 스레드가 종료되면 데몬 스레드는  강제적으로 자동 종료
+    // 반드시 start() 호출 전에 setDaemon(true) 호출
+    thread.setDaemon(true);
+    boolean isDaemon = isDaemon();
+    // 동기화
     threadB.start();
-    threadB.join();
+    try {threadB.join();} catch (InterruptedException ex) {}
+    try {
+        threadB.notify(); threadB.wait();
+    } catch (InterruptedException ex) {}
 ```
 ##### Thread 실행 시간 측정
 ```Java
+```
+#### ThreadPool
+- 병렬 작업 처리가 많아지면, 스레드의 개수가 폭증
+- 스레드 생성과 스케쥴링으로 인해 CPU가 바빠지고, 메모리 사용량이 늘어나면, 애플리케이션의 성능이 급격히 저하된다.
+- 작업 처리에 사용되는 스레드를 제한된 개수만큼 미리 생성
+- 작업 큐에 들어오는 작업들을 하나씩 스레드가 맡아 처리
+- 작업 처리가 끝난 스레드는 작업 결과를 애플리케이션으로 전달
+- 스레드는 다시 작업큐에서 새로운 작업을 가져와 처리
+- 스레드풀 생성
+    - java.util.concurrent 패키지
+    - Executors의 정적 메서드를 이용해서 ExecutorService 구현 객체 생성
+    - 스레드 풀 == ExecutorService 객체
+    - 초기 스레드 수
+    - 코어 스레드 수 : 최소한 유지 스레드 수
+    - 최대 스레드 수
+    - newCachedThreadPool : 0, 0, Interger.MAX_VALUE
+        - int 값이 가질 수 있는 최대 값만큼 스레드가 추가되나, 운영체제의 메모리 상황에 따라 달라진다.
+        - 1개 이상의 스레드가 추가 되었을 경우, 60초 동안 추가된 스레드가 아무 작업을 하지 않으면 추가된 스레드를 종료하고 풀에서 제거한다.
+        - `ExecutorService es = Executors.newCachedThreadPool();`
+    - newFixedThreadPool(int nThreads) : 0, nThreads, nThreads
+        - 코어 스레드 개수와 최대 스레드 개수가 매개값으로 준 nThread이다.
+        - 스레드가 작업을 처리하지 않고 놀고 있더라도 스레드 개수가 줄지 않는다.
+        - `ExecutorService es = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());`
+    - ThreadPoolExecutor을 이용한 직접 생성
+        - newCachedThreadPool()과 newFixedThreadPool(int nThreads)가 내부적으로 생성
+        - 스레드의 수를 자동으로 관리하고 싶을 경우 직접 생성해서 사용
+        - 코어 스레드 개수가 3, 최대 스레드 개수가 100인 스레드풀을 생성
+        - 3개를 제외한 나머지 추가된 스레드가 120초 동안 놀고 있을 경우, 해당 스레드를 제거해서 스레드 수를 관리
+```Java
+    ExecutorService threadPool = new ThreadPoolExecutor(
+        3,  // 코어 스레드 개수
+        100,    // 최대 스레드 개수
+        120L,   // 놀고 있는 시간
+        TimeUnit.SECONDS,   // 놀고 있는 시간 단위
+        newSynchronousQueue<Runnable>() // 작업큐
+    );
+- 작업 생성
+    - 하나의 작업은 Runnable 또는 Callable 객체로 표현한다.
+        - Runnable : 작업 처리 완료 후, 리턴값이 없다.
+        - Callable : 작업 처리 완료 후, 리턴값이 있다.
+    - 스레드풀에서 작업 처리
+        - 작업 큐에서 Runnable 또는 Callable 객체를 가져와서 스레드로 하여금 run()과 call() 메서드를 실행토록 하는 것이다.
+```Java
+    Runnable task = new Runnable() {
+        @Override
+        public void run() {}
+    }
+    Callable<T> task = new Callable<T> {
+        @Override
+        public T call() throws Exception { return T; }
+    }
+```
+- 작업 처리 요청
+    - ExecutorService의 작업 큐에 Runnable 또는 Callable 객체를 넣는 행위를 말한다.
+    - 작업 처리 요청을 위한 ExecutorService의 메서드
+        - void execute(Runnable command) : Runnable을 작업큐에 저장. 작업 처리 결과를 받지 못함
+        - 주로 submit() 사용
+            - Future<?> submit(Runnable task)
+            - Future<V> submit(Runnable task, V result)
+            - Future<V> submit(Callable<V> task)
+            - Runnable 또는 Callable을 작업큐에 저장. 리턴된 Future를 통해 작업 처리 결과를 얻음
+- 작업 처리 도중 예외가 발생할 경우
+    - execute() : 스레드가 종료되고 해당 스레드는 제거된다. 따라서 스레드 풀은 다른 작업 처리를 위해 새로운 스레드를 생성한다.
+    - submit() : 스레드가 종료되지 않고 다음 작업을 위해 재사용된다.
+- 스레드풀 종료
+    - 스레드풀의 스레드는 기본적으로 데몬 스레드가 아니다.
+    - main 스레드가 종료되더라도 스레드풀의 스레드는 작업을 처리하기 위해 계속 실행되므로 애플리케이션은 종료되지 않는다.
+    - 따라서 스레드풀을 종료해서 모든 스레드를 종료시켜야 한다.
+    - void shutdown() : 현재 처리 중인 작업뿐ㅗ만 아니라 작업큐에 대기하고 있는 모든 작업을 처리한 뒤에 스레드풀을 종료
+    - List<Runnable> shutdownNow() : 현재 작업 처리 중인 스레드를 interrupt 해서 작업 중지를 시도하고 스레드풀을 종료시킨다. 리턴값은 작업큐에 있는 미처리된 작업의 목록이다.
+    - bool awaitTermination(long timeout, TimeUnit unit) : shutdown() 메서드 호출 이후, 모든 작업 처리를 timeout 시간 내에 완료하면 true를 리턴하고, 완료하지 못하면 작업 처리 중인 스레드를 interrupt하고 false를 리턴한다.
+#### Thread Group
+- 관련된 스레드를 묶어서 관리할 목적으로 이용
+- 스레드 그룹은 계층적으로 하위 스레드 그룹을 가질 수 있다
+- 자동 생성되는 스레드 그룹
+    - system 그룹 : JVM 운영에 필요한 스레드들을 포함
+    - system/main 그룹 : 메인 스레드를 포함
+- 스레드는 반드시 하나의 스레드 그룹에 포함
+    - 기본적으로 자신을 생성한 스레드와 같은 스레드 그룹에 속하게 된다.
+    - 명시적으로 스레드 그룹에 포함시키지 않으면 기본적으로 system/main 그룹에 속한다.
+```Java
+    // Map<Thread, StackTraceElement[]> map = Thread.getAllStackTraces();
+    // Set<Thread> threads = map.KeySet();
+    ThreadGroup group = Thread.currentThread.getThreadGroup();
+    String groupName = group.getName();
+    // parent 그룹을 지정하지 않으면 현재 스레드가 속한 그룹의 하위 그룹으로 생성
+    ThreadGroup group = new ThreadGroup(String name);
+    ThreadGroup group = new ThreadGroup(ThreadGroup parent, String name);
+    // 스레드를 그룹에 명시적으로 포함시키는 방법
+    Thread t = new Thread(ThreadGroup group, Runnable target);
+    Thread t = new Thread(ThreadGroup group, Runnable target, String name);
+    Thread t = new Thread(ThreadGroup group, Runnable target, String name, long stackSize);
+    Thread t = new Thread(ThreadGroup group, String target);    // Thread
+    // 스레드 그룹의 일괄 interrupt()
+    group.interrupt();
 ```
 ### Thread Stack
 - Call Stack
