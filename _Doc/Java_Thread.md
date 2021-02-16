@@ -223,6 +223,45 @@
 - 작업 처리 도중 예외가 발생할 경우
     - execute() : 스레드가 종료되고 해당 스레드는 제거된다. 따라서 스레드 풀은 다른 작업 처리를 위해 새로운 스레드를 생성한다.
     - submit() : 스레드가 종료되지 않고 다음 작업을 위해 재사용된다.
+- 블로킹 방식의 작업 완료 통보 받기
+    - Future
+        - 작업 결과가 아니라 지연 완료(pending completion) 객체
+        - 작업이 완료될 때까지 기다렸다가 최종 결과를 얻기 위해서 get() 메서드 사용
+            - V get() : 작업이 완료될 때까지 블로킹 되었다가 처리 결과 V를 리턴
+            - V get(long timeout, TimeUnit unit) : timeout 시간 동안 작업이 완료되면 결과 V를 리턴하지만, 작업이 완료되지 않으면 TimeoutException을 발생시킴
+    - Futer의 get()은 UI 스레드에서 호출하면 안된다.
+        - UI를 변경하고 이벤트를 처리하는 스레드가 get() 메서드를 호출하면 작업을 완료하기 전까진는 UI를 변경할 수도 없고 이벤트를 처리할 수도 없게 된다.
+        - 새로운 스레드를 생성해서 호출
+```Java
+    new Thread(new Runnable() {
+        @Override
+        public void run() {
+            try {
+                future.get();
+            } catch (InterruptException e) {
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }).start();
+```
+        - 스레드풀의 스레드가 호출
+```Java
+    executorService.submit(new Runnable() {
+        @Override
+        public void run() {
+            try {
+                future.get();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    });
+```
+- 작업 완료를 확인을 위한 다른 메서드
+    - boolean cancel(boolean mayInterruptIfRunning) : 작업 처리가 진행 중일 경우 취소 시킴
+    - boolean isCancelled() : 작업이 취소되었는지 여부 확인
+    - boolean isDone() : 작업 처리가 완료되었는지 여부 확인
 - 스레드풀 종료
     - 스레드풀의 스레드는 기본적으로 데몬 스레드가 아니다.
     - main 스레드가 종료되더라도 스레드풀의 스레드는 작업을 처리하기 위해 계속 실행되므로 애플리케이션은 종료되지 않는다.
