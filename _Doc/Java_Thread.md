@@ -189,7 +189,7 @@
         - 3개를 제외한 나머지 추가된 스레드가 120초 동안 놀고 있을 경우, 해당 스레드를 제거해서 스레드 수를 관리
 ```Java
     ExecutorService threadPool = new ThreadPoolExecutor(
-        3,  // 코어 스레드 개수
+        3,  // 코어 스레드 개수 : getPoolSize()
         100,    // 최대 스레드 개수
         120L,   // 놀고 있는 시간
         TimeUnit.SECONDS,   // 놀고 있는 시간 단위
