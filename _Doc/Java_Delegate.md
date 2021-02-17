@@ -79,8 +79,8 @@
     - 람다식 실행 블록 내에서 this는 람다식을 실행한 객체의 참조이다
 - java.util.function 패키지의 표준 API Functional Interface
     - 매개타입으로 사용되어 람다식을 매개값으로 대입할 수 있도록 해준다
-    - Consumer
-    - Supplier
+    - Consumer : accept()
+    - Supplier : getXXX()
     - Function
     - Operator
     - Predicate
