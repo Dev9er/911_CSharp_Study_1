@@ -393,6 +393,11 @@
         }
     }
 ```
+#### 시간 측정
+```Java
+    long startTime = System.nanoTime();
+    long elapsedTime = System.nanoTime() - startTime;
+```
 ### NetWork 구현: Server, Client
 - Server
     - TcpListener

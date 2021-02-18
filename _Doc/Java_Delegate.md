@@ -79,18 +79,48 @@
     - 람다식 실행 블록 내에서 this는 람다식을 실행한 객체의 참조이다
 - java.util.function 패키지의 표준 API Functional Interface
     - 매개타입으로 사용되어 람다식을 매개값으로 대입할 수 있도록 해준다
-    - Consumer : accept()
-    - Supplier : getXXX()
-    - Function
-    - Operator
-    - Predicate
+        - andThen() : method()
+        - compose() : method()
+    - Consumer : 소비 accept()
+        - Consumer<String> consumer = s -> (); consumer.accept("s");
+        - IntConsumer intConsumer = i -> (); intConsumer.accept(3);
+    - Supplier : 공급 getXXX()
+        - Supplier<String> supplier = () -> "Hi"; supplier.get();
+        - IntSupplier intSupplier = () -> 123;   intSupplier.getAsInt();
+    - Function : 매핑(타입 변환) applyXXX()
+        - BinaryOperator<T>
+            - public interface Comparator<T> {
+                public int compare(T o1, T o2);
+            }
+            - BinaryOperator<T> Comparator<T> : minBy(), maxBy()
+        - Function<String, Student> function = s -> {
+            new Student(s); }; function.apply(s);
+        - ToIntFunction<Student> toIntFunction = S -> 3; toIntFunction.applyAsInt(S);
+    - Operator : 연산 수행 applyXXX()
+    - Predicate : testXXX()
+        - and(), or(), negate(), isEqual()
 - Method References
     - 정적 메서드 참조
-        - Math::max
+        - 메서드를 참조해서 매개변수의 정보 및 리턴 타입을 알아내어 람다식에서 불필요한 매개변수를 제거한다.
+        - 람다식이 기존 메서드를 단순하게 호출만 하는 경우.
+        - 클래스::정적메서드 표기 사용
+            - Math::max
         - IntBinaryOperator operator = Math::math
+            - (left, right) -> Math.max(left, right);
     - 인스턴스 메서드 참조
-        - 참조변수::메서드
+        - 참조변수::인스턴스메서드 표기 사용
             - instance::method
+    - 람다식의 매개변수의 메서드 참조
+        - 클래스::인스턴스메서드 표기 사용
+            - ToIntBiFunction<String, String> function;
+            - function = (a, b) -> a.compareToIgnoreCase(b);
+            - function = String::compareToIgnoreCase;
+    - 생성자 참조
+        - (a, b) -> { return new 클래스(a,b); }
+        - 클래스::new 표기 사용
+            - 클래스::new
+            - Function<String, Member> function = Member::new;
+            - Member member = function.apply("member");
 ```Java
         @FunctionalInterface
         public interface MyFunctionalInterface {
