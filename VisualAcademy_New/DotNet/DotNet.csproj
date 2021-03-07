@@ -54,46 +54,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="03_HelloWorld\CaseSensitive\CaseSensitive.cs" />
-    <Compile Include="03_HelloWorld\HelloWorldCli\HelloWorldCli.cs" />
-    <Compile Include="03_HelloWorld\HelloWorldCore\HelloWorldCore.cs" />
-    <Compile Include="03_HelloWorld\_\FileNew.cs" />
-    <Compile Include="03_HelloWorld\01_HelloWorld\HelloWorld.cs" />
-    <Compile Include="03_HelloWorld\HelloWorldExam\HelloWorldExam.cs" />
-    <Compile Include="03_HelloWorld\HelloWorldPractice\HelloWorldPractice.cs" />
-    <Compile Include="03_HelloWorld\UsingDemo\UsingDemo.cs" />
-    <Compile Include="04_Syntax\07_Whitespace\Whitespace.cs" />
-    <Compile Include="03_HelloWorld\WriteLineDemo\WriteLineDemo.cs" />
-    <Compile Include="03_HelloWorld\_\HelloWorld201804.cs" />
-    <Compile Include="03_HelloWorld\_\HelloWorldCSharp.cs" />
-    <Compile Include="03_HelloWorld\_\중괄호위치.cs" />
-    <Compile Include="03_HelloWorld\BraceLocation\BraceLocation.cs" />
-    <Compile Include="04_Syntax\05_Comment\Comment.cs" />
-    <Compile Include="04_Syntax\03_ConsoleWrite\ConsoleWrite.cs" />
-    <Compile Include="04_Syntax\00_EmptyStatement\EmptyStatement.cs" />
-    <Compile Include="04_Syntax\EscapeSequence\EscapeSequence.cs" />
-    <Compile Include="04_Syntax\FormatExam\FormatExam.cs" />
-    <Compile Include="04_Syntax\FormatPractice\FormatPractice.cs" />
-    <Compile Include="04_Syntax\Indent\Indent.cs" />
-    <Compile Include="04_Syntax\Indent\IndentSpaceTab.cs" />
-    <Compile Include="04_Syntax\Indent\IndentTab.cs" />
-    <Compile Include="04_Syntax\05_Comment\MultiLineComment.cs" />
-    <Compile Include="04_Syntax\04_NewLine\NewLine.cs" />
-    <Compile Include="04_Syntax\12_PlaceHolderChange\PlaceHolderChange.cs" />
-    <Compile Include="04_Syntax\11_PlaceHolderMulti\PlaceHolderMulti.cs" />
-    <Compile Include="04_Syntax\10_PlaceHolderTwice\PlaceHolderTwice.cs" />
-    <Compile Include="04_Syntax\09_PlaceHolder\PlaceHolder.cs" />
-    <Compile Include="04_Syntax\08_Quotes\Quotes.cs" />
-    <Compile Include="04_Syntax\05_Comment\SingleLineComment.cs" />
-    <Compile Include="04_Syntax\SquarePractice\SquarePractice.cs" />
-    <Compile Include="04_Syntax\TermExam\TermExam.cs" />
-    <Compile Include="04_Syntax\TermPractice\TermPractice.cs" />
-    <Compile Include="04_Syntax\TriangleExam\TriangleExam.cs" />
-    <Compile Include="04_Syntax\02_WriteLineDemo\WriteLineDemo2.cs" />
-    <Compile Include="04_Syntax\02_WriteLineDemo\WriteLineDemo1.cs" />
-    <Compile Include="05_Variable\ConstPseudo.cs" />
-    <Compile Include="05_Variable\VariablePseudo.cs" />
-    <Compile Include="05_Variable\_\데이터형과변수\데이터형과변수.cs" />
     <Compile Include="06_Number\NumberMaxMin\NumberMaxMin.cs" />
     <Compile Include="06_Number\NumberLiteralPseudo.cs" />
     <Compile Include="06_Number\NumberPseudo.cs" />
@@ -790,7 +750,6 @@
     <Compile Include="28_GenericClass\_\Nullable형식.cs" />
     <Compile Include="29_Null\01_NullDemo\NullDemo.cs" />
     <Compile Include="24_Class\09_ProcessGetCurrentProcess\ProcessGetCurrentProcess.cs" />
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="24_Class\05_ClassAndMember\ClassAndMember.cs" />
     <Compile Include="32_Object\08_ClassArray\ClassArray.cs" />
@@ -919,7 +878,6 @@
     <Compile Include="66_Etc\문자열관련클래스\문자열관련클래스.cs" />
     <Compile Include="66_Etc\문자열관련클래스데모\문자열관련클래스데모.cs" />
     <Compile Include="25_String\_\문자열분리\문자열분리.cs" />
-    <Compile Include="05_Variable\_\변수\변수.cs" />
     <Compile Include="43_Inheritance\_\부모의멤버접근\부모의멤버접근.cs" />
     <Compile Include="43_Inheritance\_\상속\상속.cs" />
     <Compile Include="44_Override\_\상속_메서드오버라이드\상속_메서드오버라이드.cs" />
@@ -968,9 +926,7 @@
     <Compile Include="06_Number\_\데이터형식_부호없는_정수_.cs" />
     <Compile Include="06_Number\_\데이터형식_부호있는_정수.cs" />
     <Compile Include="06_Number\_\데이터형식_실수.cs" />
-    <Compile Include="05_Variable\_\데이터형식과변수\데이터형식과변수.cs" />
     <Compile Include="07_BoolCharString\_\상수.cs" />
-    <Compile Include="05_Variable\_\상수_데모\상수_데모.cs" />
     <Compile Include="18_Array\_\배열.cs" />
     <Compile Include="18_Array\_\배열_명령줄인수.cs" />
     <Compile Include="18_Array\_\배열_배열의배열\배열_배열의배열.cs" />
@@ -997,7 +953,6 @@
     <Compile Include="42_ClassEtc\_\분할클래스.cs" />
     <Compile Include="55_Thread\_\스레드.cs" />
     <Compile Include="24_Class\_\스태틱과인스턴스\스태틱과인스턴스.cs" />
-    <Compile Include="03_HelloWorld\_\안녕하세요.cs" />
     <Compile Include="31_Algorithms\06_01_NearAlgorithm\06_02_NearAll\06_02_NearAll.cs" />
     <Compile Include="31_Algorithms\08_01_SortAlgorithm\_\선택정렬복습.cs" />
     <Compile Include="31_Algorithms\06_01_NearAlgorithm\_\알고리즘_가까운값.cs" />
@@ -1039,7 +994,6 @@
     <Compile Include="31_Algorithms\13_01_Etc\차이.cs" />
     <Compile Include="08_ReadLine\_\암시적으로형식화된로컬변수.cs" />
     <Compile Include="23_Enum\_\열거형.cs" />
-    <Compile Include="04_Syntax\_\이스케이프시퀀스.cs" />
     <Compile Include="64_Tips\IntelliSenseDemo\_\인텔리센스.cs" />
     <Compile Include="27_Collection\_\자료구조_리스트.cs" />
     <Compile Include="28_GenericClass\_\자료구조_제네릭리스트.cs" />
@@ -1063,14 +1017,11 @@
     <Compile Include="51_Tuple\01_TupleLiteralDescription\TupleLiteralDescription.cs" />
     <Compile Include="51_Tuple\04_TupleNamed\TupleNamed.cs" />
     <Compile Include="51_Tuple\03_TupleReturnDescription\TupleReturnDescription.cs" />
-    <Compile Include="04_Syntax\_\주석문.cs" />
     <Compile Include="08_ReadLine\13_RadixTransformation\RadixTransformation.cs" />
     <Compile Include="47_OOP\_\클래스복습\클래스복습.cs" />
     <Compile Include="47_OOP\_\클래스설계연습\클래스설계연습.cs" />
     <Compile Include="24_Class\_\01_클래스와개체\클래스와개체.cs" />
     <Compile Include="32_Object\_\02_클래스와객체\클래스와객체.cs" />
-    <Compile Include="04_Syntax\01_ClassSimple\ClassSimple.cs" />
-    <Compile Include="03_HelloWorld\_\클래스이름.cs" />
     <Compile Include="32_Object\_\03_클래스와인스턴스\클래스와인스턴스.cs" />
     <Compile Include="08_ReadLine\_\키보드입력.cs" />
     <Compile Include="46_Attribute\_\특성\특성.cs" />
@@ -1092,13 +1043,6 @@
     <Folder Include="66_Etc\함수_정의_호출\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="01_DotNet\01_SeeSharp.txt" />
-    <Content Include="01_DotNet\_\DOS명령어.txt" />
-    <Content Include="01_DotNet\DotNet.txt" />
-    <Content Include="02_VisualStudio\02_VisualStudio.txt" />
-    <Content Include="03_HelloWorld\03_HelloWorld.txt" />
-    <Content Include="04_Syntax\04_Syntax.txt" />
-    <Content Include="05_Variable\05_Variable.txt" />
     <Content Include="06_Number\06_Number.txt" />
     <Content Include="07_BoolCharString\07_BoolCharString.txt" />
     <Content Include="08_ReadLine\08_ReadLine.txt" />

@@ -41,7 +41,7 @@
     System.Console.ReadKey();   // Debug용 입력 사용 안하기
 ```
 - 식별자, 예약어(Key Word)
-- Type : 데이터 형식, (3.14).GetType()
+- Type : 데이터 형식, 3.14.GetType()
     - var
     - int, long, sbyte, short : .NET 형식, SByte, Int16, Int32, Int64
     - uint, ulong, byte, ushort : Byte, UInt16, UInt32, UInt64
@@ -49,8 +49,8 @@
         - MinValue, MaxValue
     - Cast 연산자 : 묵시적, 명시적
     - char, string
-- 변수 : Type 데이터 형식의 저장 공간의 이름
-    - 선언, 초기화, 정의
+- 변수 : Type 데이터 형식의 저장 공간의 이름(Address 별명)
+    - 선언, 초기화, 정의, 대입(할당), 사용(참조)
     - 결정된 정수 리터럴 형식이 int이고 리터럴이 나타내는 값이 대상 형식의 범위 내에 있는 경우, 해당 값이 암시적으로 sbyte, byte, short, ushort, uint 또는 ulong으로 변환될 수 있습니다.
         - cast 연산자 : 명시적 변환, 암시적 변환
     - default
@@ -60,7 +60,8 @@
     number1 = number2 = number3 = 15;
 ```
     - L-Value, R-Value
-- 상수 : 리터럴과 차이점?
+- 상수(Constant): 변하지 않는 변수, 읽기 전용 변수
+    - 리터럴과 차이점?
 ```C#
     const double PI = 3.14;
 ```

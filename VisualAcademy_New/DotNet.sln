@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SeeSharp.Eight", "SeeSharp.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HttpClientDemo", "HttpClientDemo\HttpClientDemo.csproj", "{84ABE224-3AE4-4F5F-838C-CCB8472E9C90}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "D_ConsoleApp", "D_ConsoleApp\D_ConsoleApp.csproj", "{81C92B2E-D84F-472B-89E4-0CB5FBE12BC5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{84ABE224-3AE4-4F5F-838C-CCB8472E9C90}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{84ABE224-3AE4-4F5F-838C-CCB8472E9C90}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{84ABE224-3AE4-4F5F-838C-CCB8472E9C90}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81C92B2E-D84F-472B-89E4-0CB5FBE12BC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81C92B2E-D84F-472B-89E4-0CB5FBE12BC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81C92B2E-D84F-472B-89E4-0CB5FBE12BC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81C92B2E-D84F-472B-89E4-0CB5FBE12BC5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
